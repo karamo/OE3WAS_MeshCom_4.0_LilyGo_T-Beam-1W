@@ -1,0 +1,1 @@
+start "" doxywizard Doxyfile.dox
