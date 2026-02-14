@@ -82,7 +82,7 @@ https://docs.platformio.org/en/latest/projectconf/sections/env/options/upload/up
 
 ---
 ### Wie Modul Flashen? [⬆️](#lilygo-t-beam-1w)
-siehe: [firmware-upload](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples/firmware#firmware-upload)
+siehe: [firmware-upload](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/firmware/UPLOAD.md)
 
 ---
 ### Pin Map [⬆️](#lilygo-t-beam-1w)
