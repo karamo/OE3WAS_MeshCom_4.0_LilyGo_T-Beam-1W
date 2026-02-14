@@ -15,16 +15,15 @@
 - [x] On-Board-**LED** (**`--board led {on|off}`**)
 - [x] User-**BUTTON** (**`--button gpio 17 --button on --reboot`**, LongPress = Display on/off, Click = Screens blättern, DoubleClick = Track POS sent, TrippleClick = POS-Anzeige on/off)
 - [x] **LoRa**: SX1262 [Receive-Interrupt-Example](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples2/Receive_Interrupt)
-- [x] **BATT** [siehe #11](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/issues/11)
-- [x] **Temperaturmessung** und **Lüfter-Steuerung** (siehe auch https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/discussions/6)
+- [x] **BATT**
+- [x] **Temperaturmessung** und **Lüfter-Steuerung**
 - [x] **LoRa**: SX1262 [Transmit-Interrupt-Example](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples2/Transmit_Interrupt)
 - [x] **GPS**: L76K (LAT,LON,ALT,Sats,HDOP,Date, TimeUTC)
-- [x] --setboostedgain {on|off}
-- [x] --txpower {2..22} für gefundenem SX1261
+- [x] `--setboostedgain {on|off}`
+- [x] `--txpower {2..22}` für gefundenem SX1261
 - [x] Freigabe aller I²C **Sensoren** (über Zusatzplatine bzw. QWICC-Stecker I²C)
 - [x] **OTA**
 - [x] **ADC-Funktion**
-- [x] Issue [#27](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/issues/27) behoben
 - [x] Commits aus **4.35k.02.02** eingebaut
 - [x] FW **4.35k.02.04** eingebaut & angepaßt
 - [x] FW **4.35k.02.04** + **Heltec V4** + **T-Deck** + **T-Deck plus** [**FW 4.35l.02.05.a**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/releases/tag/4.35l.02.05.a) 
