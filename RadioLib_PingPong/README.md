@@ -7,8 +7,7 @@
 
 ---
 #### 🔥 in Planung
-* ...
-
+* **LilyGo T-Deck**
 ---
 #### ✅ default Parameter
 * QRG = 433.525 MHz
