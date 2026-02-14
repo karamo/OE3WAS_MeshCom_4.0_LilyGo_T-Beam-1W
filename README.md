@@ -1,21 +1,21 @@
 # MeshCom_4.0 for
 <h1 align = "center">🌟LilyGo T-Beam-1W🌟</h1>
 
-* [Intention](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#intention-%EF%B8%8F)
-* [ToDo-List](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#todo-list-%EF%B8%8F)
-* [Implementierung](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#implementierung-%EF%B8%8F)
-* [Key-Components](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#key-components-%EF%B8%8F)
-* [Wie Kompilieren?](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#wie-kompilieren-%EF%B8%8F)
-* [Wie Modul Flashen?](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#wie-modul-flashen-%EF%B8%8F)
-* [Pin Map](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#pin-map-%EF%B8%8F)
-* [P5/P6 Stift-/Buchsenleiste](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#p5p6-stift-buchsenleiste-%EF%B8%8F)
-* [QWICC-Stecker](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#qwiic-stecker-%EF%B8%8F)
+* [Intention](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#intention-%EF%B8%8F)
+* [ToDo-List](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#todo-list-%EF%B8%8F)
+* [Implementierung](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#implementierung-%EF%B8%8F)
+* [Key-Components](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#key-components-%EF%B8%8F)
+* [Wie Kompilieren?](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#wie-kompilieren-%EF%B8%8F)
+* [Wie Modul Flashen?](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#wie-modul-flashen-%EF%B8%8F)
+* [Pin Map](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#pin-map-%EF%B8%8F)
+* [P5/P6 Stift-/Buchsenleiste](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#p5p6-stift-buchsenleiste-%EF%B8%8F)
+* [QWICC-Stecker](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#qwiic-stecker-%EF%B8%8F)
 
 ---
 ### Intention [⬆️](#lilygo-t-beam-1w)
 * Anpassung/Erweiterung der [**MeshCom-FW**](https://github.com/icssw-org/MeshCom-Firmware)  für den [**LilyGo T-Beam-1W**](https://github.com/Xinyuan-LilyGO/LilyGo-LoRa-Series/blob/master/docs/en/t_beam_1w/t_beam_1w_hw.md) [**LilyGo T-Beam-1W**](https://lilygo.cc/products/t-beam-1w).  
 * Hier wird eine Linksammlung zu dem **LilyGo T-Beam-1W** entstehen; und auszugsweise deutsche Übersetzungen aus den Originaldokumenten.
-* [Beispielprogramme](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples#fw-beispiele) zum Test der einzelnen Komponenten.
+* [Beispielprogramme](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples#fw-beispiele) zum Test der einzelnen Komponenten.
 * Spezialitäten, Unterschiede und Anpassungen gegenüber den anderen FW Versionen von **MeshCom-FW** und eine **angepasste FW-Version** wird zum Download bereitgestellt.
 * Dokumentation spezieller Details der **MeshCom-FW**.
 * Die Diskussion, Issues u.a. können auch hier erfolgen. Ihr seid herzlichst eingeladen, hier mitzumachen.
@@ -23,15 +23,15 @@
 ---
 ### ToDo-List [⬆️](#lilygo-t-beam-1w)
 - [x] **Vorbereitung**: Start mit FW-Version 4.35k.02.02 (fork von [**MeshCom-FW**  ](https://github.com/icssw-org/MeshCom-Firmware))
-- [x] [**Pin Map**](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#pin-map-%EF%B8%8F)
-- [x] [**examples**](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples#fw-beispiele)
-- [x] [**examples2**](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples2#fw-beispiele)
-- [x] [**RadioLib_Ping-Pong**](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/RadioLib_PingPong)
-- [≈] [**Implementierung** => FW 4.35l](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/MeshCom_FW_4/README.md#implementierung)
+- [x] [**Pin Map**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#pin-map-%EF%B8%8F)
+- [x] [**examples**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples#fw-beispiele)
+- [x] [**examples2**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples2#fw-beispiele)
+- [x] [**RadioLib_Ping-Pong**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/RadioLib_PingPong)
+- [≈] [**Implementierung** => FW 4.35l](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/MeshCom_FW_4/README.md#implementierung)
 
 ### Implementierung [⬆️](#lilygo-t-beam-1w)
 * geändete Dateien und offene Fragen siehe https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/issues/3
-- [x] LILYGO_T-BEAM-1W_433 => [Überführung in die Standard FW 4.35l](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/MeshCom_FW_4/README.md#implementierung)
+- [x] LILYGO_T-BEAM-1W_433 => [Überführung in die Standard FW 4.35l](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/MeshCom_FW_4/README.md#implementierung)
 - [x] Feldtest läuft
 - [ ] Akku-Pack
 - [ ] Gehäuse
@@ -82,7 +82,7 @@ https://docs.platformio.org/en/latest/projectconf/sections/env/options/upload/up
 
 ---
 ### Wie Modul Flashen? [⬆️](#lilygo-t-beam-1w)
-siehe: [firmware-upload](https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples/firmware#firmware-upload)
+siehe: [firmware-upload](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples/firmware#firmware-upload)
 
 ---
 ### Pin Map [⬆️](#lilygo-t-beam-1w)
@@ -192,5 +192,5 @@ https://xiaolongbupt.github.io/homepage_files/[Paper]LoRadar_INFOCOM2022.pdf
 * Ich weise auf die gesetzlichen Bestimmungen bez. Elektrogeräten, Funkanlagen u.ä. hin, die von jedem Anwender selber einzuhalten sind.
 
 ---
-***:copyright: 3.2.2026 by OE3WAS - Wolfgang***
+***:copyright: 14.2.2026 by OE3WAS - Wolfgang***
 
