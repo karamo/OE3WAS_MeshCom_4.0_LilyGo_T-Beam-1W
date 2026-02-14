@@ -15,10 +15,7 @@
 ### Intention [⬆️](#lilygo-t-beam-1w)
 * Anpassung/Erweiterung der [**MeshCom-FW**](https://github.com/icssw-org/MeshCom-Firmware)  für den [**LilyGo T-Beam-1W**](https://github.com/Xinyuan-LilyGO/LilyGo-LoRa-Series/blob/master/docs/en/t_beam_1w/t_beam_1w_hw.md) [**LilyGo T-Beam-1W**](https://lilygo.cc/products/t-beam-1w).  
 * Hier wird eine Linksammlung zu dem **LilyGo T-Beam-1W** entstehen; und auszugsweise deutsche Übersetzungen aus den Originaldokumenten.
-* [Beispielprogramme](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples#fw-beispiele) zum Test der einzelnen Komponenten.
-* Spezialitäten, Unterschiede und Anpassungen gegenüber den anderen FW Versionen von **MeshCom-FW** und eine **angepasste FW-Version** wird zum Download bereitgestellt.
 * Dokumentation spezieller Details der **MeshCom-FW**.
-* Die Diskussion, Issues u.a. können auch hier erfolgen. Ihr seid herzlichst eingeladen, hier mitzumachen.
 
 ---
 ### ToDo-List [⬆️](#lilygo-t-beam-1w)
@@ -27,10 +24,8 @@
 - [x] [**examples**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples#fw-beispiele)
 - [x] [**examples2**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples2#fw-beispiele)
 - [x] [**RadioLib_Ping-Pong**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/RadioLib_PingPong)
-- [≈] [**Implementierung** => FW 4.35l](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/MeshCom_FW_4/README.md#implementierung)
 
 ### Implementierung [⬆️](#lilygo-t-beam-1w)
-* geändete Dateien und offene Fragen siehe https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/issues/3
 - [x] LILYGO_T-BEAM-1W_433 => [Überführung in die Standard FW 4.35l](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/MeshCom_FW_4/README.md#implementierung)
 - [x] Feldtest läuft
 - [ ] Akku-Pack
