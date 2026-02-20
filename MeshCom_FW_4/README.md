@@ -27,7 +27,7 @@
 - [x] Commits aus **4.35k.02.02** eingebaut
 - [x] FW **4.35k.02.04** eingebaut & angepaßt
 - [x] FW **4.35k.02.04** + **Heltec V4** + **T-Deck** + **T-Deck plus** 
-- [ ] FW **4.35k.02.19** eingearbeitet [**FW 4.35l.02.05.a**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/releases/tag/4.35l.02.20)
+- [ ] FW **4.35k.02.19** eingearbeitet [**FW 4.35l.02.20**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/releases/tag/v4.35l.02.20)
 - [ ] ??? tools/**download_meshcom.py** u.a. noch anpassen ???
 
 ---
