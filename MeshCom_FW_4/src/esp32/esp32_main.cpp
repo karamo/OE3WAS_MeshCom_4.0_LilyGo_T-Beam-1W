@@ -361,11 +361,6 @@ LLCC68 radio = new Module(LORA_CS, LORA_DIO0, LORA_RST, LORA_DIO1);
 
 #endif
 
-#ifdef SX1262_V4
-    // RadioModule SX1262 for Heltec V4 (with external PA)
-    // Same pins as V3, but requires PA control during transmit
-    SX1262 radio = new Module(SX1262X_CS, SX1262X_IRQ, SX1262X_RST, SX1262X_GPIO);
-#endif
 
 #ifdef USING_SX1262 // BOARD_TBEAM_1W
     // !!!!! es wird nur ein SX1261 erkannt !!!!!
@@ -380,6 +375,13 @@ LLCC68 radio = new Module(LORA_CS, LORA_DIO0, LORA_RST, LORA_DIO1);
 
     //  begin(sck, miso, mosi, ss).
     SX1262 radio = new Module(PIN_LORA_NSS, PIN_LORA_DIO_1, PIN_LORA_NRST, PIN_LORA_BUSY);
+
+#endif
+
+#ifdef SX1262_V4
+    // RadioModule SX1262 for Heltec V4 (with external PA)
+    // Same pins as V3, but requires PA control during transmit
+    SX1262 radio = new Module(SX1262X_CS, SX1262X_IRQ, SX1262X_RST, SX1262X_GPIO);
 
 #endif
 
@@ -547,19 +549,19 @@ void esp32setup()
         }
     #endif
 
-    // Heltec V2: Enable Vext (GPIO 21) to power OLED and reset display
-    #if defined(BOARD_HELTEC)
+    // Heltec V2: Enable Vext (GPIO 21) Heltec V3: Enable Vext (GPIO 36) to power OLED and reset display
+    #if defined(BOARD_HELTEC) || defined(BOARD_HELTEC_V3)
         Serial.println(F("[INIT]...Enabling Vext for OLED power"));
-        pinMode(21, OUTPUT);
-        digitalWrite(21, LOW);   // Vext ON (active low)
+        pinMode(Vext, OUTPUT);
+        digitalWrite(Vext, LOW);   // Vext ON (active low)
         delay(50);
 
-        // Reset OLED (RST_OLED = GPIO 16)
+        // Reset OLED 
         Serial.println(F("[INIT]...Resetting OLED display"));
-        pinMode(16, OUTPUT);
-        digitalWrite(16, LOW);   // Reset active
+        pinMode(RST_OLED, OUTPUT);
+        digitalWrite(RST_OLED, LOW);   // Reset active
         delay(50);
-        digitalWrite(16, HIGH);  // Reset release
+        digitalWrite(RST_OLED, HIGH);  // Reset release
         delay(50);
     #endif
     
@@ -573,6 +575,7 @@ void esp32setup()
         #endif
     #endif
 
+    delay(500);
     //======================================================
     // hier mal alles reingepackt bez. der GPOIs für BOARD_TBEAM_1W [OE3WAS]
     #if defined(BOARD_TBEAM_1W)
@@ -979,9 +982,9 @@ void esp32setup()
         char cvers[22];
         sprintf(cvers, "  FW %s/%-1.1s <%s>", SOURCE_VERSION, SOURCE_VERSION_SUB, getCountry(meshcom_settings.node_country).c_str());
         String  version = cvers;
-        displayTFT(" MeshCom 4.0 ", version, "  @by icssw.org", "  OE1KBC, OE1KFR",  "  ...starting now", 5000);
+        displayTFT(" MeshCom 4.0 ", version, "  @BY ICSSW.ORG", "  OE1KBC, OE1KFR",  "  ...starting now", 5000);
     #else
-        startDisplay((char*)"...starting now", (char*)"@by icssw.org", (char*)"OE1KBC, OE1KFR");
+        startDisplay((char*)"...starting now", (char*)"@BY ICSSW.ORG", (char*)"OE1KBC, OE1KFR");
     #endif
 
     //LORA CHIP present
@@ -2103,6 +2106,10 @@ void esp32loop()
                 appSOFTSER(SOFTSER_APP_ID);
             }
         }
+    #endif
+
+    #if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS)
+    tdeck_update_header_standby();
     #endif
 
     #if defined (ANALOG_PIN)
