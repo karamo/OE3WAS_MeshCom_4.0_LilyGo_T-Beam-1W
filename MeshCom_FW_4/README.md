@@ -40,14 +40,17 @@
 <img width="955" height="425" alt="grafik" src="https://github.com/user-attachments/assets/220066d3-4aa3-409a-8f6c-3a484f615e32" />
 
 <ins>• **Debug Ausgabe**</ins>  
-<img width="581" height="62" alt="grafik" src="https://github.com/user-attachments/assets/ae6fa94b-bdab-42df-ae3f-5d3d6a8bbd43" />  
+```
+[ADC1]; GPIO4; 17:54:49; 143; 0.001; 797; 694; 694.0; 693.6; 693.6
+```
 
 <ins>• **JSON Struktur Definition**</ins>  
 <img width="439" height="297" alt="grafik" src="https://github.com/user-attachments/assets/9bf33132-cbf5-4400-8c8e-1bd232c26ad1" />  
 
 <ins>• **JSON Ausgabe**</ins>  
-<img width="689" height="59" alt="grafik" src="https://github.com/user-attachments/assets/5d6b38a9-76f6-4fa8-b729-2fcb058c1e09" />
-
+```
+D{"TYP":"AN","APN":4,"AFC":1,"AK":0,"AFL":false,"ACK":true,"ADC":0.693633,"ADCRAW":797,"ADCE1":693.601,"ADCE2":693.6334,"ADCSL":1,"ADCOF":0,"ADCAT":0}
+```
 ---
 ***20.2.2026 by OE3WAS - Wolfgang***
 
