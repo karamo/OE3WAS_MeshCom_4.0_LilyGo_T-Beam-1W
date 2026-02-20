@@ -29,9 +29,9 @@
 
 ---
 - [x] Test-FW [**PingPong**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/RadioLib_PingPong)
-- [ ] **`--temp`** Befehl für Anzeige der NTC-Temperatur & Fan-Status [#14](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/issues/14)
-- [ ] **`--pong`** Befehl & Verfahren für **Ping-Pong** Modus [#26](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/issues/26)
-- [ ] **MQTT** (siehe auch https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/discussions/7)
+- [ ] **`--temp`** Befehl für Anzeige der NTC-Temperatur & Fan-Status
+- [ ] **`--pong`** Befehl & Verfahren für **Ping-Pong** Modus
+- [ ] **MQTT**
 
 ---
 ## ADC-Funktion
