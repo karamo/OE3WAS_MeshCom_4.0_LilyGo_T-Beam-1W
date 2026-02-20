@@ -37,7 +37,7 @@
 ## ADC-Funktion
 
 <ins>• **DoxyGen Beschreibung**</ins>  
-<img width="955" height="425" alt="grafik" src="https://github.com/user-attachments/assets/220066d3-4aa3-409a-8f6c-3a484f615e32" />
+<img src="https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/images/ADC_DoxyGen.PNG" />
 
 <ins>• **Debug Ausgabe**</ins>  
 ```
@@ -45,7 +45,7 @@
 ```
 
 <ins>• **JSON Struktur Definition**</ins>  
-<img width="439" height="297" alt="grafik" src="https://github.com/user-attachments/assets/9bf33132-cbf5-4400-8c8e-1bd232c26ad1" />  
+<img src="https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/images/ADC_JSON-Struktur.PNG" />
 
 <ins>• **JSON Ausgabe**</ins>  
 ```
