@@ -822,7 +822,8 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
                                     if(aprsmsg.msg_payload.startsWith("{") > 0)
                                         ringBuffer[iWrite][1] = 0xFF; // retransmission Status ...0xFF no retransmission on {CET} & Co.
                                     else
-                                        ringBuffer[iWrite][1] = 0x00; // retransmission Status ...0xFF no retransmission
+                                    //ringBuffer[iWrite][1] = 0x00; // retransmission Status ...0xFF no retransmission
+                                    ringBuffer[iWrite][1] = 0xFF; // [DK5EN] Issue#708 Bug#3 retransmission Status ...0xFF no retransmission
                                 }
                                 else
                                     ringBuffer[iWrite][1] = 0xFF; // retransmission Status ...0xFF no retransmission on {CET} & Co.
@@ -1080,10 +1081,10 @@ bool doTX()
                         //vor jeden senden 7 aufeinander folgende CAD abwarten
                         //if(aprsmsg.msg_payload.indexOf(":ack") > 0)
                         {
-                            cmd_counter=7;
+                            cmd_counter=3; // [DK5EN] Issue#708 BUG#4
                             
                             //if(bLORADEBUG)
-                            //    Serial.printf("cmd_counter = 7:%i \n", cmd_counter);
+                            //    Serial.printf("cmd_counter = 3:%i \n", cmd_counter);
 
                             iRead=save_read;
                             ringBuffer[iRead][1] = save_ring_status;

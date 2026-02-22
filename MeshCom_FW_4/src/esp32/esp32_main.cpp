@@ -1675,6 +1675,10 @@ void esp32loop()
             // Timeout RECEIVE_TIMEOUT
             if((iReceiveTimeOutTime + RECEIVE_TIMEOUT) < millis())
             {
+              if(receiveFlag) {  // [DK5EN] Issue#708 Bug#1
+                // Paket wartet auf Verarbeitung — nicht überschreiben
+                iReceiveTimeOutTime = millis();
+              } else {
                 iReceiveTimeOutTime=0;
 
                 // clear Receive Interrupt
@@ -1706,7 +1710,8 @@ void esp32loop()
                         Serial.print(" [LoRa]...Receive Timeout, startReceive again with error = ");
                         Serial.println(state);
                     }
-                }        
+                }
+              }
             }
         }
         
