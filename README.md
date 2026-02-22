@@ -26,7 +26,7 @@
 - [x] [**RadioLib_Ping-Pong**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/RadioLib_PingPong)
 
 ### Implementierung [⬆️](#lilygo-t-beam-1w)
-- [x] LILYGO_T-BEAM-1W_433 => [Überführung in die Standard FW 4.35l](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/MeshCom_FW_4/README.md#implementierung)
+- [x] LILYGO_T-BEAM-1W_433 => [Überführung in die Standard FW 4.35](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/MeshCom_FW_4/README.md#implementierung)
 - [x] Feldtest läuft
 - [ ] Akku-Pack
 - [ ] Gehäuse
@@ -187,5 +187,5 @@ https://xiaolongbupt.github.io/homepage_files/[Paper]LoRadar_INFOCOM2022.pdf
 * Ich weise auf die gesetzlichen Bestimmungen bez. Elektrogeräten, Funkanlagen u.ä. hin, die von jedem Anwender selber einzuhalten sind.
 
 ---
-***:copyright: 14.2.2026 by OE3WAS - Wolfgang***
+***:copyright: 22.2.2026 by OE3WAS - Wolfgang***
 
