@@ -38,7 +38,7 @@
     extern int transmissionState;
 #endif
 
-#if defined(SX1262_V3) || defined(SX1262_V4) || defined(SX1262_E290)
+#if defined(SX1262_V3) || defined(SX1262_E290) || defined(SX1262_V4)
     #include <RadioLib.h>
     extern SX1262 radio;
     extern int transmissionState;
@@ -168,7 +168,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
                     memcpy(ringBuffer[iWrite]+2, print_buff, 12);
 
                     retryCount[iWrite] = 0;
-                    addRingPointer(iWrite, iRead, MAX_RING);
+                    addRingPointer(iWrite, iRead, MAX_RING, "tx");
                     /*
                     iWrite++;
                     if(iWrite >= MAX_RING)
@@ -205,10 +205,16 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
                 {
                     ringBuffer[ircheck][1] = 0xFF; // no retransmission
                     retryCount[ircheck] = 0; // clear retry counter
+                    ringBuffer[ircheck][0] = 0; // release slot — ACK received, no retransmit needed
 
                     if(bDisplayRetx)
                     {
                         Serial.printf("\n[RETX] got lora rx for retid:%i no need status:%02X lng;%i msg-id:%c-%08X\n", ircheck, ringBuffer[ircheck][1], ringBuffer[ircheck][0], ringBuffer[ircheck][2], ring_msg_id);
+                    }
+
+                    if(bLORADEBUG)
+                    {
+                        Serial.printf("[MC-DBG] ACK_RECEIVED retid=%d msg_id=%08X\n", ircheck, ring_msg_id);
                     }
                 }
             }
@@ -240,7 +246,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
             //Serial.printf("LOG Write: %i read:%i\n", RAWLoRaWrite, RAWLoRaRead);
             memcpy(ringbufferRAWLoraRX[RAWLoRaWrite], charBuffer_aprs((char*)"", aprsmsg).c_str(), UDP_TX_BUF_SIZE-1);
 
-            addRingPointer(RAWLoRaWrite, RAWLoRaRead, MAX_LOG);
+            addRingPointer(RAWLoRaWrite, RAWLoRaRead, MAX_LOG, "raw_rx");
             
             //Serial.printf("LOG Write next: %i read next:%i\n", RAWLoRaWrite, RAWLoRaRead);
 
@@ -680,14 +686,14 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
                                                 print_buff[7]=(aprsmsg.msg_id >> 8) & 0xFF;
                                                 print_buff[8]=(aprsmsg.msg_id >> 16) & 0xFF;
                                                 print_buff[9]=(aprsmsg.msg_id >> 24) & 0xFF;
-                                                print_buff[10]=0x01;     // switch ack GW / Node currently fixed to 0x00 
+                                                print_buff[10]=0x01;     // switch ack GW / Node currently fixed to 0x00
                                                 print_buff[11]=0x00;     // msg always 0x00 at the end
                                                 
                                                 ringBuffer[iWrite][0]=12;
                                                 ringBuffer[iWrite][1]=0xFF; // retransmission Status ...0xFF no retransmission
                                                 memcpy(ringBuffer[iWrite]+2, print_buff, 12);
 
-                                                addRingPointer(iWrite, iRead, MAX_RING);
+                                                addRingPointer(iWrite, iRead, MAX_RING, "tx");
 
                                                 /*
                                                 iWrite++;
@@ -719,7 +725,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 
                                                 memcpy(ringBuffer[iWrite]+2, print_buff, 12);
 
-                                                addRingPointer(iWrite, iRead, MAX_RING);
+                                                addRingPointer(iWrite, iRead, MAX_RING, "tx");
 
                                                 /*
                                                 iWrite++;
@@ -864,7 +870,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
                                 }
 
                                 retryCount[iWrite] = 0;
-                                addRingPointer(iWrite, iRead, MAX_RING);
+                                addRingPointer(iWrite, iRead, MAX_RING, "tx");
 
                                 /*
                                 iWrite++;
@@ -985,7 +991,7 @@ bool doTX()
             Serial.printf("[MC-DBG] CAD_WAIT remaining=%d\n", cmd_counter);
 
         cmd_counter--;
-        
+
         return false;
     }
 
@@ -1087,10 +1093,14 @@ bool doTX()
 
                 bSetLoRaAPRS = true;
 
-                // FIX Bug 4: Clear consumed slot only after successful transmit
-                ringBuffer[save_read][0] = 0;
-                ringBuffer[save_read][1] = 0xFF;
-                retryCount[save_read] = 0;
+                // Clear slot immediately only for fire-and-forget (relay/ACK/beacon).
+                // Text messages (0x3A) are retained for retransmit tracking.
+                if(save_ring_status == 0xFF || ringBuffer[save_read][2] != 0x3A)
+                {
+                    ringBuffer[save_read][0] = 0;
+                    ringBuffer[save_read][1] = 0xFF;
+                    retryCount[save_read] = 0;
+                }
 
                 return true;
             }
@@ -1143,7 +1153,7 @@ bool doTX()
                         #endif
                         #ifdef BOARD_HELTEC_V4
                         enablePATransmit();
-                        #endif                        
+                        #endif
 
                         // Debug K: RADIO_TX
                         if(bLORADEBUG)
@@ -1168,10 +1178,14 @@ bool doTX()
                         }
                     }
 
-                    // FIX Bug 4: Clear consumed slot only after successful transmit
-                    ringBuffer[save_read][0] = 0;
-                    ringBuffer[save_read][1] = 0xFF;
-                    retryCount[save_read] = 0;
+                    // Clear slot immediately only for fire-and-forget (relay/ACK/beacon).
+                    // Text messages (0x3A) are retained for retransmit tracking.
+                    if(save_ring_status == 0xFF || ringBuffer[save_read][2] != 0x3A)
+                    {
+                        ringBuffer[save_read][0] = 0;
+                        ringBuffer[save_read][1] = 0xFF;
+                        retryCount[save_read] = 0;
+                    }
 
                     return true;
                 }
@@ -1182,13 +1196,16 @@ bool doTX()
             DEBUG_MSG("RADIO", "TX DISABLED");
         }
 
-        // FIX Bug 4: Clear consumed slot on non-rollback drop paths
+        // Clear consumed slot on non-rollback drop paths
         // (TX disabled, or msg_type_b_lora == 0x00 decode failure).
-        // The slot is consumed (iRead advanced) but will never be sent,
-        // so clear it to prevent deadlock accumulation.
-        ringBuffer[save_read][0] = 0;
-        ringBuffer[save_read][1] = 0xFF;
-        retryCount[save_read] = 0;
+        // Clear slot immediately only for fire-and-forget (relay/ACK/beacon).
+        // Text messages (0x3A) are retained for retransmit tracking.
+        if(save_ring_status == 0xFF || ringBuffer[save_read][2] != 0x3A)
+        {
+            ringBuffer[save_read][0] = 0;
+            ringBuffer[save_read][1] = 0xFF;
+            retryCount[save_read] = 0;
+        }
     }
 
     //#endif
@@ -1205,14 +1222,8 @@ bool doTX()
 
 bool updateRetransmissionStatus()
 {
-    // FIX: Only scan slots in the active iRead→iWrite range.
-    // Consumed slots behind iRead are cleared by doTX() (Bug 1 fix),
-    // but this defense-in-depth prevents ghost retransmits from stale data.
-    int count = (iWrite >= iRead) ? (iWrite - iRead) : (MAX_RING - iRead + iWrite);
-
-    for(int q = 0; q < count; q++)
+    for(int ircheck = 0; ircheck < MAX_RING; ircheck++)
     {
-        int ircheck = (iRead + q) % MAX_RING;
 
         // Non-text messages: force no-retransmit
         if(ringBuffer[ircheck][2] != 0x3A)
@@ -1249,7 +1260,7 @@ bool updateRetransmissionStatus()
                 }
 
                 if(bLORADEBUG)
-            {
+                {
                     unsigned int ring_msg_id = (ringBuffer[ircheck][6]<<24) | (ringBuffer[ircheck][5]<<16) | (ringBuffer[ircheck][4]<<8) | ringBuffer[ircheck][3];
                     Serial.printf("[MC-DBG] RETRANSMIT retry=%d after_sec=%d msg_id=%08X\n",
                         retryCount[ircheck] + 1, (ringBuffer[ircheck][1] - 1) * 2, ring_msg_id);
@@ -1281,11 +1292,11 @@ bool updateRetransmissionStatus()
                     ringBuffer[iWrite][1] = 0x01;  // start timer immediately
                 else
                     ringBuffer[iWrite][1] = 0xFF;
-                
+
                 // Transfer and increment retry count
                 retryCount[iWrite] = retryCount[ircheck] + 1;
-                
-                addRingPointer(iWrite, iRead, MAX_RING);
+
+                addRingPointer(iWrite, iRead, MAX_RING, "tx");
 
                 return true;
             }
@@ -1357,7 +1368,7 @@ void OnHeaderDetect(void)
     // Do NOT reset cmd_counter or tx_waiting.
     // The CAD wait will resume after this packet is processed.
     is_receiving = true;
-    
+
     // Debug L: HDR_DETECT with state context
     if(bLORADEBUG)
         Serial.printf("[MC-DBG] HDR_DETECT tx_wait=%d cmd_ctr=%d\n", tx_waiting, cmd_counter);

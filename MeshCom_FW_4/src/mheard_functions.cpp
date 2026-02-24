@@ -598,7 +598,6 @@ String getHardwareLong(uint8_t hwid)
     return HardWare[ihw];
 }
 
-
 #if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS)
 /**
  * displays MHeard on T-Deck

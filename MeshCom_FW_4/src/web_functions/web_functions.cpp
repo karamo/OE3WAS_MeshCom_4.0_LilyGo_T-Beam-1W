@@ -87,7 +87,6 @@ void startWebserver()
     //   the fully-qualified domain name is "esp32.local"
     // - second argument is the IP address to advertise
     //   we send our IP address on the WiFi network
-    #ifndef T_DECK_PLUS
     if (!MDNS.begin(meshcom_settings.node_call))
     {
         Serial.print(getTimeString());
@@ -100,7 +99,6 @@ void startWebserver()
         Serial.print(getTimeString());
         Serial.println("[Web]...mDNS responder started");
     }
-    #endif
 
     web_server.begin();
 
@@ -1383,7 +1381,7 @@ void sub_page_info()
     web_client.println("<table class=\"table mw-600\">");
     web_client.println("<thead><tr class=\"font-bold\"><td>Item</td><td>Value</td></tr></thead>");
 
-    web_client.printf("<tr><td>Firmware</td><td>Meshcom %-4.4s%-1.1s<br>(build: %s / %s)</td></tr>\n", SOURCE_VERSION, SOURCE_VERSION_SUB, __DATE__, __TIME__);
+    web_client.printf("<tr><td>Firmware</td><td>Meshcom %-4.4s%-1.1s<br>(build: %s / %s)<br>(flas-version %i)</td></tr>\n", SOURCE_VERSION, SOURCE_VERSION_SUB, __DATE__, __TIME__, meshcom_settings.node_fversion);
     web_client.printf("<tr><td>Start Date</td><td>%s</td></tr>\n", meshcom_settings.node_update);
     web_client.printf("<tr><td>Call</td><td>%s</td></tr>\n", meshcom_settings.node_call);
     web_client.printf("<tr><td>Hardware</td><td>%s</td></tr>\n", getHardwareLong(BOARD_HARDWARE).c_str());

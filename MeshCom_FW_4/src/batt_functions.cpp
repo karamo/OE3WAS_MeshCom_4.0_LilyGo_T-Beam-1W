@@ -45,7 +45,13 @@ uint32_t vbat_pin = BATTERY_PIN;
 
 #endif
 
-#if defined(BOARD_HELTEC_V3) || defined(BOARD_STICK_V3) || defined(BOARD_HELTEC_V4) || defined(BOARD_HELTEC)
+#if defined(BOARD_HELTEC_V3) || defined(BOARD_STICK_V3) || defined(BOARD_HELTEC_V4)
+
+uint32_t vbat_pin = BATTERY_PIN;
+
+#endif
+
+#if defined(BOARD_HELTEC)
 
 uint32_t vbat_pin = BATTERY_PIN;
 
@@ -241,7 +247,7 @@ void init_batt(void)
 #elif defined(BOARD_TBEAM_1W)
 	analogSetAttenuation(ADC_11db); // bis ≈4,3V an GPIO
 	analogReadResolution(12);
-	
+
 #elif defined(BOARD_TRACKER)
 
 #elif defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS)
@@ -442,7 +448,7 @@ float read_batt(void)
 		raw = raw * 10.7687;
 	#elif defined(BOARD_HELTEC)
 		// all done - millivolts computed directly in read path
-	#elif defined(BOARD_HELTEC_V3) || defined(BOARD_STICK_V3) || defined(BOARD_HELTEC_V4)  || defined(BOARD_TRACKER)
+	#elif defined(BOARD_HELTEC_V3) || defined(BOARD_STICK_V3) || defined(BOARD_TRACKER) || defined(BOARD_HELTEC_V4)
 		// all done
 	#elif defined(BOARD_E22_S3) || defined(BOARD_TBEAM_1W)
 		// all done

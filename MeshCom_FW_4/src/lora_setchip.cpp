@@ -37,7 +37,7 @@
     extern int transmissionState;
 #endif
 
-#if defined(SX1262_V3) || defined(SX1262_V4) || defined(SX1262_E290)
+#if defined(SX1262_V3) || defined(SX1262_E290) || defined(SX1262_V4)
     #include <RadioLib.h>
     extern SX1262 radio;
     extern int transmissionState;

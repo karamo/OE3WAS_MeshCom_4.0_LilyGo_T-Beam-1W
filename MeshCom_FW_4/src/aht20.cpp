@@ -81,7 +81,7 @@ bool loopAHT20()
 
     if(bWXDEBUG)
     {	
-        Serial.printf("Temperature (AHT20): %.1f Â°C\n", fAHT20Temp);        
+        Serial.printf("Temperature (AHT20): %.1f °C\n", fAHT20Temp);        
         Serial.printf("Humidity (AHT20): %.1f %%rH\n", fAHT20Hum);
     }
 

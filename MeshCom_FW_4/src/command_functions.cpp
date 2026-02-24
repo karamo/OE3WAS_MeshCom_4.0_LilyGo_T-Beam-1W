@@ -730,6 +730,10 @@ void commandAction(char *umsg_text, bool ble)
         if(contrast_value < 0) contrast_value = 0;
         if(contrast_value > 255) contrast_value = 255;
 
+        meshcom_settings.node_contrast = contrast_value;
+
+        save_settings();
+
         if(u8g2 != NULL)
         {
             u8g2->setContrast(contrast_value);
@@ -4161,14 +4165,16 @@ void commandAction(char *umsg_text, bool ble)
                     SOURCE_VERSION, SOURCE_VERSION_SUB , __DATE__ , __TIME__ , meshcom_settings.node_update,
                     meshcom_settings.node_call, _GW_ID, BOARD_HARDWARE, getHardwareLong(BOARD_HARDWARE).c_str(), meshcom_settings.node_utcoff, cTimeSource, global_batt/1000.0, global_proz, meshcom_settings.node_maxv, millis());
 
+            Serial.printf("...Flash-Version %i\n", meshcom_settings.node_fversion);
+
             Serial.printf("...NOMSGALL %s ...MESH %s ...BUTTON (%i) %s ...SOFTSER %s ... SOFTSERREAD %s\n...PASSWD <%s>\n",
                 (bNoMSGtoALL?"on":"off"), (bMESH?"on":"off"), ibt, (bButtonCheck?"on":"off"), (bSOFTSERON?"on":"off"), (bSOFTSERREAD?"on":"off"), meshcom_settings.node_passwd);
 
             Serial.printf("...DEBUG %s ...LORADEBUG %s ...GPSDEBUG %s ...SOFTSERDEBUG %s\n...WXDEBUG %s ...BLEDEBUG %s\n",
                     (bDEBUG?"on":"off"), (bLORADEBUG?"on":"off"), (bGPSDEBUG?"on":"off"), (bSOFTSERDEBUG?"on":"off"),(bWXDEBUG?"on":"off"), (bBLEDEBUG?"on":"off"));
             
-            Serial.printf("...DisplayInfo %s ...DisplayCont %s\n",
-                    (bDisplayInfo?"on":"off"), (bDisplayCont?"on":"off"));
+            Serial.printf("...DisplayInfo %s ...DisplayCont %s ...contrast %i\n",
+                    (bDisplayInfo?"on":"off"), (bDisplayCont?"on":"off"), meshcom_settings.node_contrast);
 
             Serial.printf("...EXTUDP %s ...EXT IP %s\n", (bEXTUDP?"on":"off"), meshcom_settings.node_extern);
 

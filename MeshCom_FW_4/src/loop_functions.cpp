@@ -227,7 +227,7 @@ U8G2 *u8g2;
 #elif defined(BOARD_TBEAM_V3)
     U8G2_SSD1306_128X64_NONAME_1_SW_I2C u8g2_1(U8G2_R0, 18, 17, U8X8_PIN_NONE);
     U8G2_SH1106_128X64_NONAME_1_SW_I2C u8g2_2(U8G2_R0, 18, 17, U8X8_PIN_NONE);
-#elif defined(TBEAM_1W)
+#elif defined(BOARD_TBEAM_1W)
     DISPLAY_MODEL u8g2_1(U8G2_R0, U8X8_PIN_NONE);  //RESET CLOCK DATA
     DISPLAY_MODEL u8g2_2(U8G2_R0, U8X8_PIN_NONE);
 #else
@@ -389,7 +389,7 @@ void addBLEOutBuffer(uint8_t *buffer, uint16_t len)
 
     //Serial.printf("toPhone write:%i read:%i max:%i ", toPhoneWrite, toPhoneRead, MAX_RING);
 
-    addRingPointer(toPhoneWrite, toPhoneRead, MAX_RING);
+    addRingPointer(toPhoneWrite, toPhoneRead, MAX_RING, "phone");
 
     //Serial.printf("next write:%i read:%i max:%i\n", toPhoneWrite, toPhoneRead, MAX_RING);
 
@@ -576,7 +576,7 @@ int esp32_isSSD1306(int address)
     #if defined (BOARD_HELTEC_V3) || defined(BOARD_HELTEC_V4)
         return 1;
     #endif
-        
+
     #if defined (BOARD_STICK_V3)
         return 1;
     #endif
@@ -1567,7 +1567,6 @@ void sendDisplayText(struct aprsMessage &aprsmsg, int16_t rssi, int8_t snr)
     #elif defined(BOARD_TRACKER)
 
     sendDisplayMainline();
-
     sendDisplay1306(false, true, 0, dzeile[0], (char*)"#F");    // not fastmode for CET display
 
     String strPath = "M* <" + aprsmsg.msg_source_call + ">";
@@ -2388,14 +2387,14 @@ void sendMessage(char *msg_text, int len)
     }
 
     retryCount[iWrite] = 0;
-    addRingPointer(iWrite, iRead, MAX_RING);
+    addRingPointer(iWrite, iRead, MAX_RING, "tx");
 
     /*
     iWrite++;
     if(iWrite >= MAX_RING)
         iWrite=0;
     */
-    
+
     if(bGATEWAY && meshcom_settings.node_hasIPaddress)
     {
 	    // UDP out
@@ -2743,7 +2742,7 @@ void sendPosition(unsigned int uintervall, double lat, char lat_c, double lon, c
         ringBuffer[iWrite][1]=0xFF;    // Status byte for retransmission 0xFF no retransmission
         memcpy(ringBuffer[iWrite]+2, msg_buffer, ilng);
 
-        addRingPointer(iWrite, iRead, MAX_RING);
+        addRingPointer(iWrite, iRead, MAX_RING, "tx");
 
         #if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS) || defined(BOARD_T_DECK_PRO)
             tdeck_send_track_view();
@@ -2867,7 +2866,7 @@ void sendPosition(unsigned int uintervall, double lat, char lat_c, double lon, c
         ringBuffer[iWrite][1]=0xFF;    // Status byte for retransmission 0xFF no retransmission
         memcpy(ringBuffer[iWrite]+2, msg_buffer, aprsmsg.msg_len);
 
-        addRingPointer(iWrite, iRead, MAX_RING);
+        addRingPointer(iWrite, iRead, MAX_RING, "tx");
 
         #if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS) || defined(BOARD_T_DECK_PRO)
             tdeck_send_track_view();
@@ -2939,7 +2938,7 @@ void sendAPPPosition(double lat, char lat_c, double lon, char lon_c, float temp2
     ringBuffer[iWrite][1]=0xFF;    // Status byte for retransmission 0xFF no retransmission
     memcpy(ringBuffer[iWrite]+2, msg_buffer, aprsmsg.msg_len);
 
-    addRingPointer(iWrite, iRead, MAX_RING);
+    addRingPointer(iWrite, iRead, MAX_RING, "tx");
 
     /*
     iWrite++;
@@ -3014,7 +3013,7 @@ void SendAckMessage(String dest_call, unsigned int iAckId)
     ringBuffer[iWrite][1]=0xFF;    // ACK-Status byte 0xFF for no retransmission
     memcpy(ringBuffer[iWrite]+2, msg_buffer, aprsmsg.msg_len);
 
-    addRingPointer(iWrite, iRead, MAX_RING);
+    addRingPointer(iWrite, iRead, MAX_RING, "tx");
 
     /*
     iWrite++;
@@ -3087,7 +3086,7 @@ void sendHey()
         ringBuffer[iWrite][1] = 0xFF; // retransmission Status ...0xFF no retransmission
         memcpy(ringBuffer[iWrite]+2, msg_buffer, aprsmsg.msg_len);
 
-        addRingPointer(iWrite, iRead, MAX_RING);
+        addRingPointer(iWrite, iRead, MAX_RING, "tx");
 
         /*
         iWrite++;
@@ -3355,7 +3354,7 @@ void sendTelemetry(int ID)
             memcpy(ringBuffer[iWrite]+2, msg_buffer, aprsmsg.msg_len);
 
             if(!bDisplayTrack)
-                addRingPointer(iWrite, iRead, MAX_RING);
+                addRingPointer(iWrite, iRead, MAX_RING, "tx");
         }
 
         // send value messages to Lora-APRS
@@ -3371,7 +3370,7 @@ void sendTelemetry(int ID)
             ringBuffer[iWrite][1] = 0xFF; // retransmission Status ...0xFF no retransmission
             memcpy(ringBuffer[iWrite]+2, msg_buffer, tlng);
 
-            addRingPointer(iWrite, iRead, MAX_RING);
+            addRingPointer(iWrite, iRead, MAX_RING, "tx");
         }
     }
 }
@@ -3767,7 +3766,7 @@ int count_char(String s, char c)
 }
 
 // add RING Pointer
-void addRingPointer(int &pWrite, int &pRead, int iMAX)
+void addRingPointer(int &pWrite, int &pRead, int iMAX, const char* bufName)
 {
     pWrite++;
     if (pWrite >= iMAX) // if the buffer is full we start at index 0 -> take care of overwriting!
@@ -3779,12 +3778,14 @@ void addRingPointer(int &pWrite, int &pRead, int iMAX)
         if(pRead == pWrite)
         {
             pRead = pWrite+1;
-            
+
             if (pRead >= iMAX) // if the buffer is full we start at index 0 -> take care of overwriting!
                 pRead = 0;
 
-            // Debug M: RING_OVERFLOW — NOT gated by bLORADEBUG, always visible
-            Serial.println(F("[MC-DBG] RING_OVERFLOW"));
+            if(bLORADEBUG)
+            {
+                Serial.printf("[MC-DBG] RING_OVERFLOW buf=%s\n", bufName);
+            }
         }
     }
 

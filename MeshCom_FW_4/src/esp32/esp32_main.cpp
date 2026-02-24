@@ -2,7 +2,7 @@
 // (C) 2016, 2017, 2018, 2018, 2019, 2020 OE1KBC Kurt Baumann
 //
 // 20230326: Version 4.00: START
-/*
+/**
  *  @author      Ralph Weich (DD5RW)
  *  @date        2025-12-03
  */
@@ -370,7 +370,7 @@ LLCC68 radio = new Module(LORA_CS, LORA_DIO0, LORA_RST, LORA_DIO1);
 #ifdef SX1262_E290
     // RadioModule SX1262
     // cs - irq - reset - interrupt gpio
-    // If you have RESET of the E22 connected to a GPIO on the ESP you must initialize the GPIO as output and perform a LOW - HIGH cycle, 
+    // If you have RESET of the E22 connected to a GPIO on the ESP you must initialize the GPIO as output and perform a LOW - HIGH cycle,
     // otherwise your E22 is in an undefined state. RESET can be connected, but is not a must. IF so, make RESET before INIT!
 
     //  begin(sck, miso, mosi, ss).
@@ -626,6 +626,23 @@ void esp32setup()
 
 	// Get LoRa parameter
 	init_flash();
+
+    if(meshcom_settings.node_fversion != FLASH_VERSION)
+    {
+        Serial.printf("[INIT]...FLASH cleared new version %i\n", FLASH_VERSION);
+
+        clear_flash();
+
+        init_flash();
+
+        meshcom_settings.node_fversion = FLASH_VERSION;
+
+        save_settings();
+    }
+    else
+    {
+        Serial.printf("[INIT]...FLASH version %i\n", meshcom_settings.node_fversion);
+    }
 
     bDisplayVolt = meshcom_settings.node_sset & 0x0001;
     bDisplayOff = meshcom_settings.node_sset & 0x0002;
@@ -1705,7 +1722,7 @@ void esp32loop()
                 {
                     // A packet arrived just before timeout — let the receiveFlag
                     // handler process it. Just reset the timer.
-                iReceiveTimeOutTime = millis();
+                    iReceiveTimeOutTime = millis();
 
                     if(bLORADEBUG)
                     {
@@ -1743,10 +1760,10 @@ void esp32loop()
                         else
                         {
                             Serial.print(F(" [LoRa]...Receive Timeout, startReceive again with error = "));
-                        Serial.println(state);
+                            Serial.println(state);
+                        }
                     }
                 }
-              }
             }
         }
         
@@ -1782,12 +1799,12 @@ void esp32loop()
                 bEnableInterruptReceive = false;
 
                 transmittedFlag = false;
-        
+
                 // Debug G: TX_DONE
                 if(bLORADEBUG)
                     Serial.printf("[MC-DBG] TX_DONE state=%d ts=%lu\n", transmissionState, millis());
 
-            if (transmissionState == RADIOLIB_ERR_NONE)
+                if (transmissionState == RADIOLIB_ERR_NONE)
                 {
                     // packet was successfully sent
                     if(bLORADEBUG)
@@ -1810,7 +1827,6 @@ void esp32loop()
                 #ifdef BOARD_HELTEC_V4
                 disablePATransmit();
                 #endif
-
 
                 #ifndef BOARD_TLORA_OLV216
                 // reset MeshCom now
@@ -1849,7 +1865,7 @@ void esp32loop()
                         Serial.print(F("failed, code "));
                         Serial.println(state);
                     }
-                }        
+                }
 
                 inoReceiveTimeOutTime=millis();
 
@@ -1932,8 +1948,8 @@ void esp32loop()
         }
     } // bRadio active
 
-    #endif // BOARD_T5_EPAPER
-    
+    #endif
+
     // get RTC Now
     // RTC hat Vorrang zu Zeit via MeshCom-Server
     bool bMyClock = true;
