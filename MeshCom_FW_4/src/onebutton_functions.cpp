@@ -128,9 +128,9 @@ void tripleClick()
       commandAction((char*)"--track off", false);
 
   bOneButton = true;
+
   sendDisplayHead(false);
 }
-
 
 void PressLong()
 {

@@ -244,7 +244,6 @@ bool loopBMX280(void)
 		}
 	}
 
-
 	//important: measurement data is read from the sensor in function hasValue() only. 
 	//make sure to call get*() functions only after hasValue() has returned true.
   	if(isnan(bmx280.getTemperature()))

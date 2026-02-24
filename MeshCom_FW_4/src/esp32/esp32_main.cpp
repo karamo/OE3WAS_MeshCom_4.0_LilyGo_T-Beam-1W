@@ -1540,6 +1540,7 @@ void esp32loop()
         saveTimePersistence();
         last_time_save = millis();
     }
+
     // loop T-Deck GUI
     #if defined(BOARD_T_DECK_PRO)
         loopTDeck_pro();
@@ -1643,6 +1644,7 @@ void esp32loop()
 
                 led_timer = millis();
             }
+
         }
     #endif
 
@@ -2907,7 +2909,6 @@ void esp32loop()
     // yield();
     delay(5); // Save power by allowing IDLE task to run
 }
-
 
 
 int checkRX(bool bRadio)

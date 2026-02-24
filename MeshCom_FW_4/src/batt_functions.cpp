@@ -221,7 +221,6 @@ void init_batt(void)
 	pinMode(ADC_CTRL_PIN, OUTPUT);
 
 	analogReadResolution(12);
-
 #endif
 
 #if defined(NRF52_SERIES)
@@ -503,6 +502,7 @@ uint8_t mv_to_percent(float mvolts)
 	}
 
 	mvolts -= max_batt * 0.857F;	// 3600
+
 	uint8_t rproz = 10 + (mvolts * 0.15F);
 	
 	return rproz;
