@@ -14,6 +14,11 @@
 #include <SPI.h>
 #include <WiFi.h>
 
+#ifdef BOARD_T_ETH_ELITE
+#include "esp32_eth.h"
+SPIClass ethSPI(FSPI);
+#endif
+
 #include "esp32_gps.h"
 #include "esp32_flash.h"
 #include <esp_adc_cal.h>
@@ -162,6 +167,11 @@ bool bHeyFirst = true;
 bool bTeleFirst = true;
 
 bool bAllStarted = true;
+
+#ifdef BOARD_T_ETH_ELITE
+EspETH neth;
+bool bETHERNET = false;
+#endif
 
 String strTime;
 String strDate;
@@ -521,7 +531,8 @@ float getTempForNTC()
         // Calculate temperature using the Steinhart-Hart equation
         temperature = (1.0 / (log(resistance / ROOM_TEMP_RESISTANCE) / B_COEFFICIENT + 1.0 / ROOM_TEMP)) - 273.15;
 
-        Serial.printf("NTC-Temp: %.3f_°C %u_raw %.3f_mV %.2f_Ohm\n", temperature, raw, voltage, resistance);
+        if(bWXDEBUG)
+            Serial.printf("NTC-Temp: %.3f_°C %u_raw %.3f_mV %.2f_Ohm\n", temperature, raw, voltage, resistance);
 
         check_temperature  = millis() + 1000;
     }
@@ -536,10 +547,11 @@ void esp32setup()
     ///< Initialize T5-EPAPER GUI
     ///< delay for ESP32-S3 nativ USB [OE3WAS]
     ///< um Terminal verbinden zu können
-    timerSerial.start(2000);  //timeout falls keine USB verbunden ist
+    timerSerial.start(1000);  //timeout falls keine USB verbunden ist
     Serial.begin(MONITOR_SPEED);
+    
     while (!Serial && !timerSerial.time_over());
-    if (Serial) { for (int i=0;i<10;i++) { Serial.println("."); delay(1000); } } //delay for Terminal connect
+    if (Serial) { for (int i=0;i<5;i++) { Serial.println("."); delay(1000); } } //delay for Terminal connect
 
     #if defined BOARD_T5_EPAPER
         if (psramInit()) {
@@ -631,18 +643,19 @@ void esp32setup()
     {
         Serial.printf("[INIT]...FLASH cleared new version %i\n", FLASH_VERSION);
 
+        initTimePersistence();
+
         clear_flash();
-
-        init_flash();
-
-        meshcom_settings.node_fversion = FLASH_VERSION;
-
-        save_settings();
     }
     else
     {
         Serial.printf("[INIT]...FLASH version %i\n", meshcom_settings.node_fversion);
     }
+
+    meshcom_settings.node_fversion = FLASH_VERSION;
+    meshcom_settings.node_mversion = MODUL_HARDWARE;
+    snprintf(meshcom_settings.node_fwversion, sizeof(meshcom_settings.node_fwversion), "%-4.4s%-1.1s", SOURCE_VERSION, SOURCE_VERSION_SUB);
+    save_settings();
 
     bDisplayVolt = meshcom_settings.node_sset & 0x0001;
     bDisplayOff = meshcom_settings.node_sset & 0x0002;
@@ -1047,7 +1060,7 @@ void esp32setup()
 
     #if defined (BOARD_TRACKER) || defined(BOARD_TBEAM_1W)
         SPI.begin(RADIO_SCLK_PIN, RADIO_MISO_PIN, RADIO_MOSI_PIN);
-    #endif
+    #endif-ELITE and refactor network handling)
 
     #if defined(BOARD_T5_EPAPER)
     // extra source
@@ -1056,6 +1069,10 @@ void esp32setup()
     #elif defined(BOARD_E220)
         Serial.print(F(" Initializing ... "));
         int state = radio.begin(434.0F, 125.0F, 9, 7, SYNC_WORD_SX127x, 10, LORA_PREAMBLE_LENGTH, /*float tcxoVoltage = 0*/ 1.6F, /*bool useRegulatorLDO = false*/ false);
+    #elif defined(BOARD_T_ETH_ELITE)
+    Serial.print(F(" Initializing ... "));
+    int state = radio.begin(433.175F);
+    radio.setDio2AsRfSwitch(true);
     #else
         Serial.print(F(" Initializing ... "));
 
@@ -1198,12 +1215,14 @@ void esp32setup()
             while (true);
         }
 
-        // set over current protection limit (accepted range is 45 - 240 mA)
+        // set over current protection limit (accepted range is 0 - 140 mA)
         // NOTE: set value to 0 to disable overcurrent protection
+        /*
         if (radio.setCurrentLimit(CURRENT_LIMIT) == RADIOLIB_ERR_INVALID_CURRENT_LIMIT) {
             Serial.println(F("Selected current limit is invalid for this module!"));
             while (true);
         }
+        */
 
         // set LoRa preamble length to 15 symbols (accepted range is 6 - 65535)
         Serial.printf("[LoRa]...PREAMBLE: %i symbols\n", meshcom_settings.node_preamplebits);
@@ -1488,7 +1507,7 @@ void esp32setup()
     {
         bAllStarted=false;
 
-        if(!startWIFI())
+        if(!startNetwork())
         {
             Serial.println("[WIFI]...no connection");
             #if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS)
@@ -2097,7 +2116,7 @@ void esp32loop()
                 if(bWEBSERVER)
                     stopWebserver();
 
-                startWIFI();
+                startNetwork();
 
                 ifalseping = 5;
                 
@@ -2112,7 +2131,7 @@ void esp32loop()
         }
     }
 
-    if(meshcom_settings.node_hasIPaddress)
+    if(meshcom_settings.node_netmode == 0 && meshcom_settings.node_hasIPaddress)
     {
         currentWiFiMillis = millis();
 
@@ -2318,7 +2337,7 @@ void esp32loop()
 
     // TRACK ON
     if(bDisplayTrack)
-        gps_refresh_intervall = 2.0;
+        gps_refresh_intervall = 5.0;
 
     if ((gps_refresh_timer + ((unsigned long)gps_refresh_intervall * 1000)) < millis())
     {
@@ -2606,7 +2625,9 @@ void esp32loop()
             if (NTCtemp > 35.0) { digitalWrite(FAN_CTRL, HIGH); 
             } else if (NTCtemp < 28.0) { digitalWrite(FAN_CTRL, LOW); }
 
-            Serial.printf("%s;[TEMP];%.2f;%s\n", getTimeString().c_str(), NTCtemp, digitalRead(FAN_CTRL) ? "on" : "off");
+            if(bWXDEBUG)
+                Serial.printf("%s;[TEMP];%.2f;%s\n", getTimeString().c_str(), NTCtemp, digitalRead(FAN_CTRL) ? "on" : "off");
+                
             #endif
 
             BattTimeWait = millis();
@@ -2852,7 +2873,7 @@ void esp32loop()
                         if(bWEBSERVER)
                             stopWebserver();
 
-                        startWIFI();
+                        startNetwork();
                     }
                     else
                     {
@@ -2876,15 +2897,22 @@ void esp32loop()
             #endif
         }
 
-        if(bWEBSERVER)
+        if(bWEBSERVER && iWlanWait == 0)
         {
             startWebserver();
 
             loopWebserver();
         }
 
-        if(bEXTUDP)
+        if(bEXTUDP && iWlanWait == 0)
         {
+        #ifdef BOARD_T_ETH_ELITE
+            if(meshcom_settings.node_hasIPaddress == false)
+            {
+                neth.initethDHCP();
+            }
+        #endif
+
             startExternUDP();
         }
     }

@@ -5,6 +5,7 @@
 #endif
 
 #include "loop_functions.h"
+#include "mheard_functions.h"
 #include "command_functions.h"
 
 #include "clock.h"
@@ -151,6 +152,11 @@ unsigned long posfixinterall = 0;
 
 unsigned long currentWiFiMillis = 0;
 unsigned long previousWiFiMillis = 0;
+
+// Timer variables for persitence to SD
+unsigned long lastsavePOSPersistence = 0;
+unsigned long lastsaveMHEARDPersistence = 0;
+unsigned long lastsavePATHPersistence = 0;
 
 char cTimeSource[10];
 
@@ -309,6 +315,8 @@ double posinfo_prev_lon = 0.0;
 double posinfo_last_direction = 0.0;
 unsigned int posinfo_last_rate = POSINFO_INTERVAL;  // seconds
 
+String strNMEA;
+
 uint32_t posinfo_satcount = 0;
 int posinfo_hdop = 0;
 bool posinfo_fix = false;
@@ -401,7 +409,7 @@ void addBLEOutBuffer(uint8_t *buffer, uint16_t len)
     */
 }
 
-/** @brief Function adding messages into outgoing BLE ringbuffer
+/** @brief Function adding config messages into outgoing BLE ringbuffer
  * BLE to PHONE Buffer
  */
 void addBLEComToOutBuffer(uint8_t *buffer, uint16_t len)
@@ -425,7 +433,12 @@ void addBLEComToOutBuffer(uint8_t *buffer, uint16_t len)
     //Serial.printf("toPhoneWrite:%i\n", toPhoneWrite);
 
     if (ComToPhoneWrite >= MAX_RING) // if the buffer is full we start at index 0 -> take care of overwriting!
+    {
+        if(bBLEDEBUG)
+            Serial.printf("[ERR]...BLEComToPhoneRingBuff overflow! Reset to 0 from %i\n", ComToPhoneWrite);
+
         ComToPhoneWrite = 0;
+    }
 }
 
 void addBLECommandBack(char text[UDP_TX_BUF_SIZE])
@@ -1736,7 +1749,6 @@ void sendDisplayText(struct aprsMessage &aprsmsg, int16_t rssi, int8_t snr)
     #endif
 
     bSetDisplay=false;
-
 }
 
 void init_loop_function()
@@ -1778,6 +1790,7 @@ void initAnalogPin()
 void sendDisplayPosition(struct aprsMessage &aprsmsg, int16_t rssi, int8_t snr)
 {
     //Serial.printf("bPosDisplay:%i bSetDisplay:%i pageHold:%i bDisplayTrack:%i rssi:%d snr:%d\n", bPosDisplay, bSetDisplay, pageHold, bDisplayTrack, rssi, snr);
+    //return; // test heap
 
     if(!bPosDisplay)
         return;
@@ -2403,7 +2416,7 @@ void sendMessage(char *msg_text, int len)
 
     // Extern Server
     if(bEXTUDP)
-        sendExtern(true, (char*)"node", msg_buffer, aprsmsg.msg_len);
+        sendExtern(true, (char*)"node", msg_buffer, aprsmsg.msg_len, 0, 0);
 
                         
     // wenn text via Console kommt auch an BLE bzw. WEBService senden
@@ -2658,7 +2671,7 @@ String PositionToAPRS(bool bConvPos, bool bSsendTele, bool bFuss, double plat, c
     return String(msg_start);
 }
 
-void sendPosition(unsigned int uintervall, double lat, char lat_c, double lon, char lon_c, int alt, float press, float hum, float temp, float temp2, float gasres, float co2, int qfe, float qnh)
+void sendPosition(unsigned long uintervall, double lat, char lat_c, double lon, char lon_c, int alt, float press, float hum, float temp, float temp2, float gasres, float co2, int qfe, float qnh)
 {
     // position 0.0/0.0 no message sent
     if(lat == 0.0 && lon == 0.0)
@@ -2669,10 +2682,10 @@ void sendPosition(unsigned int uintervall, double lat, char lat_c, double lon, c
     bool bSendViaAPRS = bDisplayTrack;
     bool bSendViaMesh = !bDisplayTrack;
 
-    unsigned int intervall = uintervall;
+    unsigned long intervall = uintervall;
 
     bool bsendTele = false;
-    if(intervall == 1)
+    if(intervall == 0xEEEE)
     {
         intervall = 0;
         bsendTele = true;
@@ -2680,7 +2693,7 @@ void sendPosition(unsigned int uintervall, double lat, char lat_c, double lon, c
         bSendViaAPRS=false;
     }
 
-    if(lastHeardTime + 15000 < millis() && (intervall == POSINFO_INTERVAL || intervall == 0)) // wenn die letzte gehörte LoRa-Nachricht < 5sec dann auch via MeshCom
+    if(lastHeardTime + 15000 < millis() && (intervall == POSINFO_INTERVAL || intervall == 0x9999)) // wenn die letzte gehörte LoRa-Nachricht < 5sec dann auch via MeshCom
     {
         bSendViaMesh = true;
 
@@ -2734,7 +2747,7 @@ void sendPosition(unsigned int uintervall, double lat, char lat_c, double lon, c
 
         if(bDisplayInfo)
         {
-            Serial.printf("%s [LO-APRS]...%s\n", getTimeString().c_str(), msg_buffer+3);
+            Serial.printf("%s [LO-APRS]...%c%02X%02X%s\n", getTimeString().c_str(), msg_buffer[0], msg_buffer[1], msg_buffer[2], msg_buffer+3);
         }
 
         // local LoRa-APRS position-messages send to LoRa TX
@@ -2893,7 +2906,7 @@ void sendPosition(unsigned int uintervall, double lat, char lat_c, double lon, c
 
         // Extern Server
         if(bEXTUDP)
-            sendExtern(true, (char*)"node", msg_buffer, aprsmsg.msg_len);
+            sendExtern(true, (char*)"node", msg_buffer, aprsmsg.msg_len, 0, 0);
     }
 
 }
@@ -3052,7 +3065,7 @@ void sendHey()
     else
         aprsmsg.msg_destination_path = "H";
 
-    aprsmsg.msg_payload = "R";
+    aprsmsg.msg_payload = "R" + String(getMheardCount()) + ";";
    
     meshcom_settings.node_msgid++;
     if(meshcom_settings.node_msgid > 999)

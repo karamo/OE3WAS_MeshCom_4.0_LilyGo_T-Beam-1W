@@ -19,7 +19,7 @@
 
 // TinyGPS
 extern TinyGPSPlus tinyGPSPlus;
- 
+
 bool l76kProbe()
 {
     bool result = false;
@@ -30,14 +30,16 @@ bool l76kProbe()
     startTimeout = millis() + 4000;
     Serial.print("[GPSL]...Try to init L76K . Wait stop .");
     // SerialGPS.flush();
-    while (SerialGPS.available())
+
+    strNMEA.clear();
+
+    while (SerialGPS.available() > 0)
     {
-        int c = SerialGPS.read();
+        char c = SerialGPS.read();
         
-        if(bGPSDEBUG && bDisplayCont)
+        if(bGPSDEBUG)
         {
-            Serial.write(c);
-            Serial.flush();
+            strNMEA.concat(c);
         }
 
         SerialGPS.flush();
@@ -49,13 +51,18 @@ bool l76kProbe()
         }
     };
     Serial.println();
+    
+    if(bGPSDEBUG)
+        Serial.println(strNMEA);
+
     SerialGPS.flush();
     delay(200);
 
     SerialGPS.write("$PCAS06,0*1B\r\n");
     startTimeout = millis() + 500;
     String ver = "";
-    while (!SerialGPS.available())
+
+    while (SerialGPS.available() <= 0)
     {
         if (millis() > startTimeout)
         {
@@ -88,14 +95,20 @@ static TaskHandle_t gpsInitTaskHandle = NULL;
 void gpsInitTask(void *parameter) {
     bool result = false;
 
-    if(bGPSDEBUG)
-        Serial.println("[L76K]...check 9600baud");
-
-    SerialGPS.begin(9600, SERIAL_8N1, GPS_RX_PIN, GPS_TX_PIN);
-    for ( int i = 0; i < 3; ++i)
+    if(meshcom_settings.node_gpsbaud > 0 && meshcom_settings.node_gpsbaud < 150000)
     {
-        result = l76kProbe();
-        if (result) break;
+        if(bGPSDEBUG)
+            Serial.printf("[L76K]...check %lubaud\n", meshcom_settings.node_gpsbaud);
+
+        SerialGPS.begin(meshcom_settings.node_gpsbaud, SERIAL_8N1, GPS_RX_PIN, GPS_TX_PIN);
+        for ( int i = 0; i < 3; ++i)
+        {
+            result = l76kProbe();
+            if (result)
+            {
+                break;
+            }
+        }
     }
 
     if (!result) {
@@ -106,7 +119,12 @@ void gpsInitTask(void *parameter) {
         for ( int i = 0; i < 3; ++i)
         {
             result = l76kProbe();
-            if (result) break;
+            if (result)
+            {
+                meshcom_settings.node_gpsbaud = 38400;
+                save_settings();
+                break;
+            }
         }
     }
 
@@ -118,10 +136,32 @@ void gpsInitTask(void *parameter) {
         for ( int i = 0; i < 3; ++i)
         {
             result = l76kProbe();
-            if (result) break;
+            if (result)
+            {
+                meshcom_settings.node_gpsbaud = 115200;
+                save_settings();
+                break;
+            }
         }
     }
     
+    if(!result) {
+        if(bGPSDEBUG)
+            Serial.println("[L76K]...check 9600baud");
+
+        SerialGPS.begin(9600, SERIAL_8N1, GPS_RX_PIN, GPS_TX_PIN);
+        for ( int i = 0; i < 3; ++i)
+        {
+            result = l76kProbe();
+            if (result)
+            {
+                meshcom_settings.node_gpsbaud = 9600;
+                save_settings();
+                break;
+            }
+        }
+    }
+
     gpsInitTaskHandle = NULL;
     vTaskDelete(NULL);
 }
@@ -145,42 +185,75 @@ void stopL76KGPS()
 
 unsigned int loopL76KGPS()
 {
-    if (gpsInitTaskHandle != NULL) return POSINFO_INTERVAL;
-
     if(bGPSDEBUG)
         Serial.println("[L76K]...loopL76KGPS start");
 
-    bool bGPSAVAIL=false;
+    if (gpsInitTaskHandle != NULL) return POSINFO_INTERVAL;
 
-    while (SerialGPS.available())
+    bool bNMEA_OK=false;
+    int iNMEA_Count = 0;
+
+    char c_last = 0x00;
+
+    strNMEA.clear();
+
+    while (SerialGPS.available() > 0)
     {
         char c = SerialGPS.read();
-        
-        if(bGPSDEBUG && bDisplayCont)
-        {
-            if(bGPSDEBUG)
-                Serial.print(c);
-
-            bGPSAVAIL=true;
-        }
 
         if (tinyGPSPlus.encode(c))
         {
         }
+
+        if(bGPSDEBUG)
+        {
+            strNMEA.concat(c);
+        }
+
+        iNMEA_Count++;
+
+        if(c_last == '$' and c == 'G')
+        {
+            bNMEA_OK = true;
+        }
+        
+        c_last = c;
     }
 
-    if(bGPSDEBUG && bDisplayCont && bGPSAVAIL)
-        Serial.println("");
+    if(bNMEA_OK)
+        return displayInfo();
 
-    return displayInfo();
+    if(iNMEA_Count > 0)
+    {
+        // falsche zeichen im NMEA
+        stopL76KGPS();
 
+        beginGPS();
+    }
+
+    return 0;
  }
  
  
 unsigned int displayInfo()
  {
-    if(bGPSDEBUG) 
+    if(bGPSDEBUG)
+    {
         Serial.print(F("[L76K]...Location: "));
+        
+        Serial.println("");
+        Serial.println(strNMEA);
+    }
+
+    if(tinyGPSPlus.satellites.isValid())
+    {
+        posinfo_satcount = tinyGPSPlus.satellites.value();
+        
+        if(tinyGPSPlus.hdop.isValid())
+        {
+            posinfo_hdop = tinyGPSPlus.hdop.value();
+        }
+    }
 
     if (tinyGPSPlus.location.isValid())
     {
@@ -203,8 +276,7 @@ unsigned int displayInfo()
             }
             else
             {
-                if(bGPSDEBUG)
-                    Serial.println(F("INVALID"));
+                Serial.println(F("[L76K]...INVALID"));
             }
         }
 
@@ -244,7 +316,7 @@ unsigned int displayInfo()
                 Serial.printf("\n[L76K]...location.isUpdated:%i isValid:%i sat:%i hdop:%i -- ", tinyGPSPlus.location.isUpdated(), tinyGPSPlus.location.isValid(), tinyGPSPlus.satellites.value(), tinyGPSPlus.hdop.value());
             
             // valid GPS data
-            if(tinyGPSPlus.location.isValid() && tinyGPSPlus.hdop.isValid() && tinyGPSPlus.hdop.value() < 2000)
+            if(tinyGPSPlus.location.isValid() && tinyGPSPlus.hdop.isValid() && tinyGPSPlus.hdop.value() < 5000)
             {
                 double dlat, dlon;
 
@@ -292,7 +364,7 @@ unsigned int displayInfo()
 
                 if(bGPSDEBUG)
                 {
-                    Serial.println(F("VALID"));
+                    Serial.println(F("[L76K]...VALID"));
                 }
 
                 return setSMartBeaconing(dlat, dlon);

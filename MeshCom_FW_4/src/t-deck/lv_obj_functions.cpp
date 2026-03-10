@@ -35,7 +35,10 @@
 extern TFT_eSPI tft;
 
 #include <esp32/esp32_flash.h>
+
+#ifdef T_DECK_SPIFFS
 #include <SPIFFS.h>
+#endif
 
 #if defined(ENABLE_AUDIO)
 #include <esp32/esp32_audio.h>
@@ -175,7 +178,9 @@ static const size_t MSG_TAB_MAX_MESSAGES = 50;
 static std::vector<std::pair<String, MsgBubble>> persisted_msgs;
 static bool loading_messages_from_file = false;
 static const size_t PERSISTED_MSG_LIMIT = 1000;
+#ifdef T_DECK_SPIFFS
 static const char *PERSISTED_MSG_FILE = "/messages.json";
+#endif
 static int unsaved_msgs_count = 0;
 static const int FLUSH_THRESHOLD = 10;
 static unsigned long last_flush_millis = 0;
@@ -188,7 +193,10 @@ static void msg_flush_timer_cb(lv_timer_t *t);
 static lv_timer_t *msg_flush_timer = NULL;
 static lv_timer_t *track_clear_timer = NULL;
 
+#ifdef T_DECK_SPIFFS
 static String unescape_json(const String &s);
+#endif
+
 static void save_persisted_messages(void);
 static void load_persisted_messages(void);
 
@@ -262,7 +270,7 @@ static void update_tab_button_state(bool show)
     if(tab_menu_icon_label != NULL)
     {
         lv_color_t color = show ? lv_palette_main(LV_PALETTE_RED)
-                                : lv_palette_main(LV_PALETTE_LIGHT_GREEN);
+                                : lv_palette_main(LV_PALETTE_LIME); //ex LV_PALETTE_LIGHT_GREEN
         lv_obj_set_style_text_color(tab_menu_icon_label, color, LV_PART_MAIN);
     }
 }
@@ -324,7 +332,7 @@ static void tab_standby_button_event_cb(lv_event_t * e)
 
     if (meshcom_settings.node_backlightlock)
     {
-        lv_obj_set_style_text_color(tab_standby_icon_label, lv_palette_main(LV_PALETTE_YELLOW), LV_PART_MAIN);
+        lv_obj_set_style_text_color(tab_standby_icon_label, lv_palette_main(LV_PALETTE_LIME), LV_PART_MAIN);  //ex LV_PALETTE_YELLOW
     }
     else
     {
@@ -343,7 +351,7 @@ static void tab_kbl_button_event_cb(lv_event_t * e)
         if (kbd_light_on)
         {
             setKeyboardBacklight(255);
-            lv_obj_set_style_text_color(tab_kbl_icon_label, lv_palette_main(LV_PALETTE_YELLOW), LV_PART_MAIN);
+            lv_obj_set_style_text_color(tab_kbl_icon_label, lv_palette_main(LV_PALETTE_LIME), LV_PART_MAIN);  //ex LV_PALETTE_YELLOW
         }
         else
         {
@@ -441,7 +449,7 @@ void setDisplayLayout(lv_obj_t *parent)
 
     tab_menu_header = lv_obj_create(parent);
     lv_obj_set_size(tab_menu_header, screen_w, header_height);
-    lv_obj_set_style_bg_color(tab_menu_header, lv_palette_main(LV_PALETTE_BLUE), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(tab_menu_header, lv_palette_main(LV_PALETTE_BLUE_GREY), LV_PART_MAIN); //ex LV_PALETTE_BLUE
     lv_obj_set_style_bg_opa(tab_menu_header, LV_OPA_COVER, LV_PART_MAIN);
     lv_obj_set_style_border_width(tab_menu_header, 0, LV_PART_MAIN);
     lv_obj_set_style_radius(tab_menu_header, 0, LV_PART_MAIN);
@@ -452,7 +460,7 @@ void setDisplayLayout(lv_obj_t *parent)
     lv_obj_set_size(tab_menu_button, 40, header_height - 4);
     lv_obj_align(tab_menu_button, LV_ALIGN_LEFT_MID, 8, 0);
     lv_obj_add_event_cb(tab_menu_button, tab_menu_button_event_cb, LV_EVENT_CLICKED, NULL);
-    lv_color_t header_blue = lv_palette_main(LV_PALETTE_BLUE);
+    lv_color_t header_blue = lv_palette_main(LV_PALETTE_BLUE_GREY); //ex LV_PALETTE_BLUE
     lv_obj_set_style_bg_color(tab_menu_button, header_blue, LV_PART_MAIN);
     lv_obj_set_style_bg_color(tab_menu_button, header_blue, LV_PART_MAIN | LV_STATE_CHECKED);
     lv_obj_set_style_border_width(tab_menu_button, 0, LV_PART_MAIN);
@@ -494,13 +502,13 @@ void setDisplayLayout(lv_obj_t *parent)
     header_time_label = lv_label_create(tab_menu_header);
     lv_label_set_text(header_time_label, "--:--");
     lv_label_set_long_mode(header_time_label, LV_LABEL_LONG_CLIP);
-    lv_obj_set_style_text_color(header_time_label, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_text_color(header_time_label, lv_palette_main(LV_PALETTE_LIME), LV_PART_MAIN); //ex lv_color_white()
     lv_obj_align(header_time_label, LV_ALIGN_RIGHT_MID, 0, 0);
 
     header_batt_label = lv_label_create(tab_menu_header);
     lv_label_set_text(header_batt_label, "0%");
     lv_label_set_long_mode(header_batt_label, LV_LABEL_LONG_CLIP);
-    lv_obj_set_style_text_color(header_batt_label, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_text_color(header_batt_label, lv_palette_main(LV_PALETTE_LIME), LV_PART_MAIN); //ex lv_color_white()
     lv_obj_align_to(header_batt_label, header_time_label, LV_ALIGN_OUT_LEFT_MID, -22, 0);
 
     header_batt_icon = lv_label_create(tab_menu_header);
@@ -510,7 +518,7 @@ void setDisplayLayout(lv_obj_t *parent)
     header_sat_label = lv_label_create(tab_menu_header);
     lv_label_set_text(header_sat_label, "0");
     lv_label_set_long_mode(header_sat_label, LV_LABEL_LONG_CLIP);
-    lv_obj_set_style_text_color(header_sat_label, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_text_color(header_sat_label, lv_palette_main(LV_PALETTE_LIME), LV_PART_MAIN); //ex lv_color_white()
     lv_obj_align_to(header_sat_label, header_batt_icon, LV_ALIGN_OUT_LEFT_MID, -6, 0);
 
     header_sat_icon = lv_label_create(tab_menu_header);
@@ -1470,21 +1478,23 @@ void setDisplayLayout(lv_obj_t *parent)
     lv_obj_set_style_clip_corner(mheard_ta, true, 0);
 
     lv_table_set_row_cnt(mheard_ta, 1);
-    lv_table_set_col_cnt(mheard_ta, 6);
+    lv_table_set_col_cnt(mheard_ta, 7);
 
     lv_table_set_col_width(mheard_ta, 0, 76);
     lv_table_set_col_width(mheard_ta, 1, 40);
-    lv_table_set_col_width(mheard_ta, 2, 38);
-    lv_table_set_col_width(mheard_ta, 3, 68);
-    lv_table_set_col_width(mheard_ta, 4, 38);
-    lv_table_set_col_width(mheard_ta, 5, 38);
+    lv_table_set_col_width(mheard_ta, 2, 35);
+    lv_table_set_col_width(mheard_ta, 3, 62);
+    lv_table_set_col_width(mheard_ta, 4, 30);
+    lv_table_set_col_width(mheard_ta, 5, 30);
+    lv_table_set_col_width(mheard_ta, 6, 25);
 
     lv_table_set_cell_value(mheard_ta, 0, 0, "Call");
     lv_table_set_cell_value(mheard_ta, 0, 1, "Time");
     lv_table_set_cell_value(mheard_ta, 0, 2, "Typ");
     lv_table_set_cell_value(mheard_ta, 0, 3, "HW");
-    lv_table_set_cell_value(mheard_ta, 0, 4, "Mod");
-    lv_table_set_cell_value(mheard_ta, 0, 5, "Dist");
+    lv_table_set_cell_value(mheard_ta, 0, 4, "SSI");
+    lv_table_set_cell_value(mheard_ta, 0, 5, "SNR");
+    lv_table_set_cell_value(mheard_ta, 0, 6, "NC");
 
     // lv_obj_set_height(mheard_ta, LV_VER_RES * 0.6);
 
@@ -1945,7 +1955,7 @@ void tft_on()
             // Update button state visual
             if (tab_kbl_icon_label)
             {
-                lv_obj_set_style_text_color(tab_kbl_icon_label, lv_palette_main(LV_PALETTE_YELLOW), LV_PART_MAIN);
+                lv_obj_set_style_text_color(tab_kbl_icon_label, lv_palette_main(LV_PALETTE_GREEN), LV_PART_MAIN); //ex LV_PALETTE_YELLOW
             }
         }
     }
@@ -2114,14 +2124,14 @@ static void update_header_wifi_indicator(void)
     // Only if global switch is ON (which we checked above, but double check logic)
     if (bWIFIAP || bWEBSERVER || (strlen(meshcom_settings.node_ssid) > 1))
     {
-        lv_obj_set_style_text_color(header_wifi_icon, lv_palette_main(LV_PALETTE_RED), LV_PART_MAIN);
+        lv_obj_set_style_text_color(header_wifi_icon, lv_palette_main(LV_PALETTE_LIME), LV_PART_MAIN);  //ex lv_palette_main(LV_PALETTE_RED)
         lv_label_set_text(header_wifi_icon, LV_SYMBOL_WIFI);
         lv_obj_clear_flag(header_wifi_icon, LV_OBJ_FLAG_HIDDEN);
     }
     else
     {
         // Not enabled/configured -> White
-        lv_obj_set_style_text_color(header_wifi_icon, lv_color_white(), LV_PART_MAIN);
+        lv_obj_set_style_text_color(header_wifi_icon, lv_palette_main(LV_PALETTE_GREY), LV_PART_MAIN); //ex lv_color_white()
         lv_label_set_text(header_wifi_icon, LV_SYMBOL_WIFI);
         lv_obj_add_flag(header_wifi_icon, LV_OBJ_FLAG_HIDDEN);
     }
@@ -2132,9 +2142,10 @@ static void update_header_bt_indicator(void)
     if(header_bt_icon == NULL)
         return;
     // Always render the icon glyph in white
-    lv_obj_set_style_text_color(header_bt_icon, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_style_text_color(header_bt_icon, lv_palette_main(LV_PALETTE_GREY), LV_PART_MAIN); //ex lv_color_white()
     lv_label_set_text(header_bt_icon, LV_SYMBOL_BLUETOOTH);
 
+    /* KBC
     // Ensure a square touch/visual area for the icon
     lv_obj_set_size(header_bt_icon, 22, 22);
     lv_obj_set_style_text_align(header_bt_icon, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
@@ -2144,20 +2155,21 @@ static void update_header_bt_indicator(void)
     lv_obj_set_style_border_width(header_bt_icon, 0, LV_PART_MAIN);
     lv_obj_set_style_bg_opa(header_bt_icon, LV_OPA_TRANSP, LV_PART_MAIN);
     lv_obj_set_style_radius(header_bt_icon, 12, LV_PART_MAIN);
+    */
 
     // deviceConnected is set by NimBLE callbacks
     if (deviceConnected)
     {
         // Connected: blue logo
-        lv_obj_set_style_text_color(header_bt_icon, lv_color_make(0x00, 0x00, 0xff), LV_PART_MAIN);
+        lv_obj_set_style_text_color(header_bt_icon, lv_palette_main(LV_PALETTE_LIME), LV_PART_MAIN); //ex lv_color_make(0x00, 0x00, 0xff)
     }
     else
     {
         // BLE advertising active: white glyph with white ring
         if (strlen(cBLEName) > 1)
         {
-            lv_obj_set_style_border_width(header_bt_icon, 2, LV_PART_MAIN);
-            lv_obj_set_style_border_color(header_bt_icon, lv_color_white(), LV_PART_MAIN);
+            //ex lv_obj_set_style_border_width(header_bt_icon, 2, LV_PART_MAIN);
+            lv_obj_set_style_border_color(header_bt_icon, lv_palette_main(LV_PALETTE_GREY), LV_PART_MAIN); //ex lv_color_white()
         }
         else
         {
@@ -2183,7 +2195,7 @@ void tdeck_update_header_standby(void)
 
     if (meshcom_settings.node_backlightlock)
     {
-        lv_obj_set_style_text_color(tab_standby_icon_label, lv_palette_main(LV_PALETTE_YELLOW), LV_PART_MAIN);
+        lv_obj_set_style_text_color(tab_standby_icon_label, lv_palette_main(LV_PALETTE_LIME), LV_PART_MAIN); //ex LV_PALETTE_YELLOW
     }
     else
     {
@@ -2224,7 +2236,7 @@ static void apply_tab_bar_styles(void)
 
     lv_obj_set_style_bg_color(tab_bar, lv_color_black(), LV_PART_ITEMS | LV_STATE_CHECKED);
     lv_obj_set_style_bg_opa(tab_bar, LV_OPA_80, LV_PART_ITEMS | LV_STATE_CHECKED);
-    lv_obj_set_style_bg_color(tab_bar, lv_palette_darken(LV_PALETTE_BLUE, 2), LV_PART_ITEMS);
+    lv_obj_set_style_bg_color(tab_bar, lv_palette_darken(LV_PALETTE_BLUE_GREY, 2), LV_PART_ITEMS);   //ex LV_PALETTE_BLUE
     lv_obj_set_style_bg_opa(tab_bar, LV_OPA_60, LV_PART_ITEMS);
 
     lv_obj_set_style_border_width(tab_bar, 0, LV_PART_ITEMS);
@@ -2532,6 +2544,8 @@ static MsgTabEntry *msg_tabs_get_or_create_entry(const String &group, int *index
 
 static void log_message_to_sd(const String &group, const MsgBubble &bubble, const char* filename = "/messages.json")
 {
+    #ifdef HEAP_TEST
+
     if (!meshcom_settings.node_persist_to_sd)
     {
         if (bDEBUG)
@@ -2553,6 +2567,8 @@ static void log_message_to_sd(const String &group, const MsgBubble &bubble, cons
     line += "}";
 
     log_json_to_sd(filename, line);
+
+    #endif
 }
 
 static lv_timer_t *sys_msg_save_timer = NULL;
@@ -2580,6 +2596,7 @@ static void sys_msg_save_timer_cb(lv_timer_t *timer)
 
              if(bSDDected)
              {
+                #ifdef HEAP_TEST
                 const char* sys_filename = "/system_messages.json";
                 // Check size limit (approx 10000 messages * 100 bytes = 1MB)
                 if(SD.exists(sys_filename))
@@ -2600,6 +2617,7 @@ static void sys_msg_save_timer_cb(lv_timer_t *timer)
                     }
                 }
                 log_message_to_sd(sys_msg_save_group, last, sys_filename);
+                #endif
              }
         }
     }
@@ -2724,6 +2742,7 @@ static void msg_tabs_add_message(const String &group, const MsgBubble &bubble)
         {
             // Already active, just append to view
             msg_list_append_bubble(bubble);
+
             lv_obj_t *last = lv_obj_get_child(msg_list, -1);
             if(last != NULL)
                 lv_obj_scroll_to_view(last, LV_ANIM_ON);
@@ -2752,6 +2771,10 @@ static void msg_render_active_tab(void)
     {
         msg_list_show_hint("No messages in this conversation");
         return;
+    }
+    else
+    {
+        msg_list_show_hint("");
     }
 
     msg_list_clear();
@@ -2876,7 +2899,7 @@ static void msg_list_append_bubble(const MsgBubble &bubble)
         lv_label_set_text(del_label, LV_SYMBOL_TRASH);
         lv_obj_center(del_label);
 
-        // attach identifying userdata
+    // attach identifying userdata
         DeleteEventData *ded = new DeleteEventData();
         ded->group = current_group;
         ded->timestamp = bubble.timestamp;
@@ -2906,7 +2929,6 @@ static void msg_list_append_bubble(const MsgBubble &bubble)
     lv_obj_set_width(time_label, LV_SIZE_CONTENT);
     lv_obj_set_style_text_align(time_label, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN);
     */
-
     lv_obj_t *body = lv_label_create(bubble_obj);
     lv_label_set_text(body, bubble.body.c_str());
     lv_label_set_long_mode(body, LV_LABEL_LONG_WRAP);
@@ -3116,9 +3138,12 @@ static void msg_tabs_clear_all(void)
 
 // -- Persistence implementation -------------------------------------------------
 
+#ifdef T_DECK_SPIFFS
+
 static String unescape_json(const String &s)
 {
     String out;
+
     out.reserve(s.length());
     for(size_t i = 0; i < s.length(); ++i)
     {
@@ -3138,11 +3163,16 @@ static String unescape_json(const String &s)
             out += c;
         }
     }
+
+
     return out;
 }
+#endif
 
 static void save_persisted_messages(void)
 {
+    #ifdef T_DECK_SPIFFS
+
     if (! meshcom_settings.node_persist_to_flash)
     {
         if (bDEBUG)
@@ -3233,10 +3263,15 @@ static void save_persisted_messages(void)
     // update flush timestamp and reset unsaved counter
     last_flush_millis = millis();
     unsaved_msgs_count = 0;
+
+    #endif
 }
 
 static void load_persisted_messages(void)
 {
+    #ifdef T_DECK_SPIFFS
+
+
     persisted_msgs.clear();
     loading_messages_from_file = true;
 
@@ -3354,6 +3389,8 @@ static void load_persisted_messages(void)
     loading_messages_from_file = false;
     // set last flush timestamp so timer waits full interval before next auto-save
     last_flush_millis = millis();
+
+    #endif
 }
 
 // -----------------------------------------------------------------------------
@@ -3393,8 +3430,8 @@ static bool compute_maidenhead_locator(double lat, double lon, char *buffer, siz
     remainder_lon -= subsquare_lon * subsquare_lon_span;
     remainder_lat -= subsquare_lat * subsquare_lat_span;
 
-    const double extended_lon_span = subsquare_lon_span / 24.0;
-    const double extended_lat_span = subsquare_lat_span / 24.0;
+    const double extended_lon_span = subsquare_lon_span / 10.0;
+    const double extended_lat_span = subsquare_lat_span / 9.0;
 
     int extended_lon = (int)floor(remainder_lon / extended_lon_span);
     int extended_lat = (int)floor(remainder_lat / extended_lat_span);
@@ -3405,8 +3442,8 @@ static bool compute_maidenhead_locator(double lat, double lon, char *buffer, siz
     buffer[3] = '0' + clamp_int(square_lat, 0, 9);
     buffer[4] = 'A' + clamp_int(subsquare_lon, 0, 23);
     buffer[5] = 'A' + clamp_int(subsquare_lat, 0, 23);
-    buffer[6] = 'A' + clamp_int(extended_lon, 0, 23);
-    buffer[7] = 'A' + clamp_int(extended_lat, 0, 23);
+    buffer[6] = '0' + clamp_int(extended_lon, 0, 9);
+    buffer[7] = '0' + clamp_int(extended_lat, 0, 9);
     buffer[8] = '\0';
 
     return true;
@@ -3493,6 +3530,8 @@ void tdeck_update_time_label()
  */
 void tdeck_add_pos_point(String callsign, double u_dlat, char lat_c, double u_dlon, char lon_c)
 {
+    #ifndef T_DECK_POS
+
     if (bDEBUG)
         Serial.printf("[ MAP ]...add position point call:%s\n", callsign.c_str());
 
@@ -3537,17 +3576,126 @@ void tdeck_add_pos_point(String callsign, double u_dlat, char lat_c, double u_dl
     map_pos_count++;
     if (map_pos_count >= MAX_POINTS)
         map_pos_count = 1;
+
+    #endif
 }
 
+void savePosPersistence()
+{
+    #if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS)
+        if (!meshcom_settings.node_persist_to_sd)
+        {
+            if (bDEBUG)
+                Serial.println("[TDECK]...POS not persisting to SD");
+            return;
+        }
+
+        // check to save to SD only every 30 sec
+        if(lastsavePOSPersistence + 30000 > millis())
+            return;
+
+        lastsavePOSPersistence = millis();
+
+        if(bDisplayCont)
+            Serial.println("[TDECK]...POS persisting to SD");
+
+        if(SD.exists("/pos.dat")) SD.remove("/pos.dat");
+        File file = SD.open("/pos.dat", FILE_WRITE);
+        if(!file) return;
+
+        unsigned char pos[30] = {0};
+        char u_pos[30]={0};
+
+        for(int pos_check = 1; pos_check<posrow+1; pos_check++)
+        {
+            sprintf(u_pos, "%-10.10s", lv_table_get_cell_value(position_ta, pos_check, 0));
+            memcpy(pos, u_pos, 10);
+            file.write(pos, 10);
+
+            sprintf(u_pos, "%-6.6s", lv_table_get_cell_value(position_ta, pos_check, 1));
+            memcpy(pos, u_pos, 6);
+            file.write(pos, 6);
+
+            sprintf(u_pos, "%-24.24s", lv_table_get_cell_value(position_ta, pos_check, 2));
+            memcpy(pos, u_pos, 24);
+            file.write(pos, 24);
+        }
+
+        file.close();
+
+    #endif
+}
+
+void loadPosPersistence()
+{
+    #if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS)
+        if (!meshcom_settings.node_persist_to_sd)
+        {
+            if (bDEBUG)
+                Serial.println("[TDECK]...POS not persisting from SD");
+            return;
+        }
+
+        File file = SD.open("/pos.dat", FILE_READ);
+        if(!file) return;
+
+        unsigned char pos[30] = {0};
+        char u_pos[30]={0};
+
+        posrow=0;
+
+        while(1)
+        {
+           if(file.read(pos, 10) != 10)
+                break;
+
+            pos[10]=0x00;
+            sprintf(u_pos, "%s", pos);
+            String s_pos = u_pos;
+            s_pos.trim();
+
+            if(s_pos.isEmpty())
+                break;
+
+            posrow++;
+
+            lv_table_set_cell_value(position_ta, posrow, 0, s_pos.c_str());
+
+            if(file.read(pos, 6) != 6)
+                break;
+
+            pos[6]=0x00;
+            sprintf(u_pos, "%s", pos);
+            s_pos = u_pos;
+            s_pos.trim();
+            lv_table_set_cell_value(position_ta, posrow, 1, s_pos.c_str());
+
+            if(file.read(pos, 24) != 24)
+                break;
+
+            pos[24]=0x00;
+            sprintf(u_pos, "%s", pos);
+            s_pos = u_pos;
+            s_pos.trim();
+            lv_table_set_cell_value(position_ta, posrow, 2, s_pos.c_str());
+        }
+
+        file.close();
+
+    #endif
+}
 /**
  * adds a position to the POS view
  */
 void tdeck_add_to_pos_view(String callsign, double u_dlat, char lat_c, double u_dlon, char lon_c, int alt)
 {
-    char buf[2000];
+    #ifndef T_DECK_POS
+
+    char buf[30];
+
 
     if (bDEBUG)
-        Serial.printf("[POSVIEW]...add %s\n", callsign.c_str());
+        Serial.printf("[POSVIEW]...add %s act posrow:%i\n", callsign.c_str(), posrow);
 
     double dlat = u_dlat;
     if(lat_c == 'W')
@@ -3557,24 +3705,43 @@ void tdeck_add_to_pos_view(String callsign, double u_dlat, char lat_c, double u_
     if(lon_c == 'S')
         dlon = u_dlon * -1.0;
 
-    // Tabelle push down
-    if(posrow < MAX_POSROW)
+    bool bnotfound=true;
+
+    snprintf(buf, 10, "%s", callsign.c_str());
+
+    for(int pos_check = 1; pos_check<posrow+1; pos_check++)
     {
-        posrow++;
-        // 2025-04-23, OE3GJC: not required, autoextends on write to row
-        // lv_table_set_row_cnt(position_ta, posrow);
+        if(strcmp(lv_table_get_cell_value(position_ta, pos_check, 0), buf) == 0)
+        {
+            bnotfound=false;
+
+            break;
+        }
     }
 
-    if(posrow > 2)
+    int pos_next_push = posrow-1;
+    
+    if(bnotfound)
+        pos_next_push = posrow;
+
+    if(bDEBUG)
+        Serial.printf("[POSVIEW]...pos_next_push:%i\n", pos_next_push);
+    
+    for(int pos_push = posrow-1; pos_push > 0; pos_push--)
     {
-        for(int pos_push = posrow - 2; pos_push >= 1; pos_push--)
+        if(strcmp(lv_table_get_cell_value(position_ta, pos_push, 0), buf) != 0)
         {
             if (bDEBUG)
-                Serial.printf("[POSVIEW]...moving row %i to %i (%s)\n", pos_push, pos_push + 1, lv_table_get_cell_value(position_ta, pos_push, 0));
+                Serial.printf("[POSVIEW]...moving row %i to %i (%s)\n", pos_push, pos_next_push, lv_table_get_cell_value(position_ta, pos_push, 0));
 
-            lv_table_set_cell_value(position_ta, pos_push + 1, 0, lv_table_get_cell_value(position_ta, pos_push, 0));
-            lv_table_set_cell_value(position_ta, pos_push + 1, 1, lv_table_get_cell_value(position_ta, pos_push, 1));
-            lv_table_set_cell_value(position_ta, pos_push + 1, 2, lv_table_get_cell_value(position_ta, pos_push, 2));
+            if(pos_push != pos_next_push)
+            {
+                lv_table_set_cell_value(position_ta, pos_next_push, 0, lv_table_get_cell_value(position_ta, pos_push, 0));
+                lv_table_set_cell_value(position_ta, pos_next_push, 1, lv_table_get_cell_value(position_ta, pos_push, 1));
+                lv_table_set_cell_value(position_ta, pos_next_push, 2, lv_table_get_cell_value(position_ta, pos_push, 2));
+            }
+
+            pos_next_push--;
         }
     }
 
@@ -3587,15 +3754,12 @@ void tdeck_add_to_pos_view(String callsign, double u_dlat, char lat_c, double u_
     snprintf(buf, 24, "%.2lf%c/%.2lf%c/%i", dlat, lat_c, dlon, lon_c, alt);
     lv_table_set_cell_value(position_ta, 1, 2, buf);
 
-    // Log position to SD
-    String json = "{";
-    json += "\"call\":\"" + escape_json(callsign) + "\",";
-    json += "\"time\":\"" + escape_json(String(meshcom_settings.node_date_hour) + ":" + String(meshcom_settings.node_date_minute)) + "\",";
-    json += "\"lat\":" + String(dlat, 6) + ",";
-    json += "\"lon\":" + String(dlon, 6) + ",";
-    json += "\"alt\":" + String(alt);
-    json += "}";
-    log_json_to_sd("/positions.json", json);
+    if(bnotfound && posrow < MAX_POSROW)
+        posrow++;
+
+    savePosPersistence();
+
+    #endif
 }
 
 /**
@@ -3627,7 +3791,7 @@ void tdeck_refresh_SET_view()
     lv_textarea_set_text(setup_name, meshcom_settings.node_name);
     lv_textarea_set_text(setup_comment, meshcom_settings.node_atxt);
     lv_textarea_set_text(setup_wifissid, meshcom_settings.node_ssid);
-    lv_textarea_set_text(setup_wifipassword, "***********************");
+    lv_textarea_set_text(setup_wifipassword, "**********");
 
     sprintf(vChar, "%i", meshcom_settings.node_gcb[0]);
     lv_textarea_set_text(setup_grc0, vChar);
@@ -3755,7 +3919,7 @@ static void msg_focus_and_alert(bool bWithAudio)
             // Force a full screen redraw to ensure the display buffer is flushed to the hardware
             lv_obj_invalidate(lv_scr_act());
             // Force a task handler run to update the UI before playing audio
-            lv_task_handler();
+            //lv_task_handler(); Y5 check
         }
     }
 
@@ -3763,10 +3927,12 @@ static void msg_focus_and_alert(bool bWithAudio)
     {
         if (bDEBUG)
             Serial.println("[TDECK]...msg_focus_and_alert: Playing audio...");
+
         if (!play_file_from_sd(meshcom_settings.node_audio_msg.c_str(), 12))
         {
             play_cw('r');
         }
+        
         if (bDEBUG)
             Serial.println("[TDECK]...msg_focus_and_alert: Audio finished.");
     }

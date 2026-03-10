@@ -414,9 +414,11 @@ unsigned int readGPS(void)
 
     GPS.flush();
 
+    strNMEA.clear();
+
     while ((millis() - start) < 1000)
     {
-        while (GPS.available())
+        while (GPS.available() > 0)
         {
             BurstStart = true;
             GPStimeout = millis();
@@ -424,13 +426,31 @@ unsigned int readGPS(void)
             if(((c>=0x20) && (c<0x7f)) || (c==0x0A) || (c==0x0D))
             {
                 if (tinyGPSPlus.encode(c))
+                {
                     newData = true;
-
-                if(bGPSDEBUG)
-                    Serial.print(c);
+                }
+                
+                strNMEA.concat(c);
             }
         }
         if (BurstStart && (GPStimeout+20) < millis()) break;
+    }
+
+
+    if(bGPSDEBUG)
+        Serial.println(strNMEA);
+
+    if(tinyGPSPlus.satellites.isValid())
+    {
+        posinfo_satcount = tinyGPSPlus.satellites.value();
+        
+        if(tinyGPSPlus.hdop.isValid())
+            posinfo_hdop = tinyGPSPlus.hdop.value();
+        else
+            posinfo_hdop = 9099;
+
+        if(bGPSDEBUG)
+            Serial.printf("[GPS ]...SAT:%i HDOP:%i\n", posinfo_satcount, posinfo_hdop);
     }
 
     if(bGPSDEBUG)
@@ -447,7 +467,7 @@ unsigned int readGPS(void)
         snprintf(cTimeSource, sizeof(cTimeSource), (char*)"GPS");
     }
 
-    if (newData && tinyGPSPlus.location.isUpdated() && tinyGPSPlus.location.isValid() && tinyGPSPlus.hdop.isValid() && tinyGPSPlus.hdop.value() < 2000)
+    if (newData && tinyGPSPlus.location.isUpdated() && tinyGPSPlus.location.isValid() && tinyGPSPlus.hdop.isValid() && tinyGPSPlus.hdop.value() < 5000)
     {
         meshcom_settings.node_lat = cround4abs(tinyGPSPlus.location.lat());
         meshcom_settings.node_lon = cround4abs(tinyGPSPlus.location.lng());
@@ -536,7 +556,7 @@ unsigned int getGPS(void)
     }
 
     #if defined (BOARD_TRACKER)
-        if(GPS.available())
+        if(GPS.available() > 0)
         {
             return readGPS();
         }
@@ -699,7 +719,7 @@ unsigned int getGPS(void)
             break;
         
         case 4:
-            if(GPS.available())
+            if(GPS.available() > 0)
             {
                 return readGPS();
             }

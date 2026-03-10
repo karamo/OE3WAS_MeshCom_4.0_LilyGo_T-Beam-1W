@@ -63,6 +63,9 @@ unsigned long rebootAuto = 0;
 // libs for T-Deck view refresh
 #if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS)
 #include <t-deck/lv_obj_functions.h>
+#ifdef HEAP_TEST
+#include <SPIFFS.h>
+#endif
 #endif
 
 #if defined(BOARD_T5_EPAPER)
@@ -564,7 +567,7 @@ void commandAction(char *umsg_text, bool ble)
             Serial.printf("MeshCom %-4.4s%-1.1s commands\n--setcall  set callsign (OE0XXX-1)\n--setname  set first name/none\n--setctry 0-99 set RX/RX-LoRa-Parameter\n--reboot   Node reboot\n", SOURCE_VERSION, SOURCE_VERSION_SUB);
             delay(100);
 
-            Serial.printf("--setssid  WLAN SSID/none\n--setpwd   WLAN PASSWORD/none\n--setownip 255.255.255.255\n--setowngw 255.255.255.255\n--setownms mask:255.255.255.255\n--setowndns 255.255.255.255\n--wifiap on/off WLAN AP\n--extudp  on/off\n--extudpip 255.255.255.255/none\n");
+            Serial.printf("--setssid  WLAN SSID/none\n--setpwd   WLAN PASSWORD/none\n--setownip 255.255.255.255\n--setowngw 255.255.255.255\n--setownms mask:255.255.255.255\n--setowndns 255.255.255.255\n--setownntp 255.255.255.255\n--wifiap on/off WLAN AP\n--extudp  on/off\n--extudpip 255.255.255.255/none\n");
             delay(100);
 
             Serial.printf("--btcode 999999 BT-Code\n--button gpio 99 User-Button PIN\n--analog gpio 99 Analog PIN\n--analog factor 9.9 Analog factor\n--analog check on/off\n");
@@ -727,7 +730,7 @@ void commandAction(char *umsg_text, bool ble)
     {
         #if !defined(BOARD_E290) && !defined(BOARD_T_DECK) && !defined(BOARD_T_DECK_PLUS) && !defined(BOARD_TRACKER) && !defined(BOARD_T5_EPAPER) && !defined(BOARD_T_DECK_PRO)
         int contrast_value = atoi(msg_text + 11);  // "--" + "contrast " = 2 + 9 = 11
-        if(contrast_value < 0) contrast_value = 0;
+        if(contrast_value <= 0) contrast_value = 1;
         if(contrast_value > 255) contrast_value = 255;
 
         meshcom_settings.node_contrast = contrast_value;
@@ -756,6 +759,21 @@ void commandAction(char *umsg_text, bool ble)
 
         bReturn = true;
     }
+    #ifdef HEAP_TEST
+    else
+    if(commandCheck(msg_text+2, (char*)"spiffs reset") == 0)
+    {
+        #if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS)
+        Serial.println("...SPIFFS format start");
+        SPIFFS.format();
+        Serial.println("...SPIFFS format done");
+        #else
+        Serial.println("[DISP]...SPIFFS  not supported on this hardware");
+        #endif
+
+        bReturn = true;
+    }
+    #endif
     else
     if(commandCheck(msg_text+2, (char*)"button on") == 0)
     {
@@ -1902,6 +1920,7 @@ void commandAction(char *umsg_text, bool ble)
         {
             bNodeSetting=true;
         }
+
         bReturn = true;
 
         save_settings();
@@ -2650,7 +2669,7 @@ void commandAction(char *umsg_text, bool ble)
     else
     if(commandCheck(msg_text+2, (char*)"sendpos") == 0)
     {
-        sendPosition(0, meshcom_settings.node_lat, meshcom_settings.node_lat_c, meshcom_settings.node_lon, meshcom_settings.node_lon_c, meshcom_settings.node_alt, meshcom_settings.node_press, meshcom_settings.node_hum, meshcom_settings.node_temp, meshcom_settings.node_temp2, meshcom_settings.node_gas_res, meshcom_settings.node_co2, meshcom_settings.node_press_alt, meshcom_settings.node_press_asl);
+        sendPosition(0x9999, meshcom_settings.node_lat, meshcom_settings.node_lat_c, meshcom_settings.node_lon, meshcom_settings.node_lon_c, meshcom_settings.node_alt, meshcom_settings.node_press, meshcom_settings.node_hum, meshcom_settings.node_temp, meshcom_settings.node_temp2, meshcom_settings.node_gas_res, meshcom_settings.node_co2, meshcom_settings.node_press_alt, meshcom_settings.node_press_asl);
 
         if(ble)
         {
@@ -2662,7 +2681,7 @@ void commandAction(char *umsg_text, bool ble)
     else
     if(commandCheck(msg_text+2, (char*)"sendtele") == 0)
     {
-        sendPosition(1, meshcom_settings.node_lat, meshcom_settings.node_lat_c, meshcom_settings.node_lon, meshcom_settings.node_lon_c, meshcom_settings.node_alt, meshcom_settings.node_press, meshcom_settings.node_hum, meshcom_settings.node_temp, meshcom_settings.node_temp2, meshcom_settings.node_gas_res, meshcom_settings.node_co2, meshcom_settings.node_press_alt, meshcom_settings.node_press_asl);
+        sendPosition(0xEEEE, meshcom_settings.node_lat, meshcom_settings.node_lat_c, meshcom_settings.node_lon, meshcom_settings.node_lon_c, meshcom_settings.node_alt, meshcom_settings.node_press, meshcom_settings.node_hum, meshcom_settings.node_temp, meshcom_settings.node_temp2, meshcom_settings.node_gas_res, meshcom_settings.node_co2, meshcom_settings.node_press_alt, meshcom_settings.node_press_asl);
 
         if(ble)
         {
@@ -2889,6 +2908,39 @@ void commandAction(char *umsg_text, bool ble)
         return;
     }
     else
+    
+    #if defined(HAS_ETHERNET)
+        // --- network or wifi mode ---
+        if(commandCheck(msg_text+2, (char*)"netmode wifi") == 0)
+        {
+            meshcom_settings.node_netmode = 0;
+
+            Serial.println("[CMD] netmode -> WiFi");
+
+            save_settings();
+
+            rebootAuto = millis() + 2000;
+
+            bReturn = true;
+        }
+        else
+        if(commandCheck(msg_text+2, (char*)"netmode eth") == 0)
+        {
+            meshcom_settings.node_netmode = 1;
+
+            Serial.println("[CMD] netmode -> Ethernet");
+            //Serial.printf("node_netmode=%d\n", meshcom_settings.node_netmode); // solo per debug
+
+            save_settings();
+
+            rebootAuto = millis() + 2000;
+
+            bReturn = true;
+        } 
+        else
+
+    #endif
+
     if(commandCheck(msg_text+2, (char*)"wifiap on") == 0)
     {
         bWIFIAP=true;
@@ -3002,6 +3054,56 @@ void commandAction(char *umsg_text, bool ble)
         msg_text[50]=0x00;
 
         snprintf(meshcom_settings.node_ownms, sizeof(meshcom_settings.node_ownms), "%s", msg_text+11);
+
+        if(ble)
+        {
+            bWifiSetting = true;
+        }
+
+        save_settings();
+
+        if((strlen(meshcom_settings.node_ownip) >= 7 && strlen(meshcom_settings.node_owngw) >= 7 && strlen(meshcom_settings.node_ownms) >= 7) ||
+           (strlen(meshcom_settings.node_ownip) < 7 && strlen(meshcom_settings.node_owngw) < 7 && strlen(meshcom_settings.node_ownms) < 7))
+        {
+            Serial.println("Auto. Reboot after 15 sec.");
+
+            rebootAuto = millis() + 15 * 1000; // 10 Sekunden
+        }
+
+        return;
+    }
+    else
+    if(commandCheck(msg_text+2, (char*)"setowndns ") == 0)
+    {
+        // max. 40 char
+        msg_text[50]=0x00;
+
+        snprintf(meshcom_settings.node_owndns, sizeof(meshcom_settings.node_owndns), "%s", msg_text+11);
+
+        if(ble)
+        {
+            bWifiSetting = true;
+        }
+
+        save_settings();
+
+        if((strlen(meshcom_settings.node_ownip) >= 7 && strlen(meshcom_settings.node_owngw) >= 7 && strlen(meshcom_settings.node_ownms) >= 7) ||
+           (strlen(meshcom_settings.node_ownip) < 7 && strlen(meshcom_settings.node_owngw) < 7 && strlen(meshcom_settings.node_ownms) < 7))
+        {
+            Serial.println("Auto. Reboot after 15 sec.");
+
+            rebootAuto = millis() + 15 * 1000; // 10 Sekunden
+        }
+
+        return;
+    }
+    else
+    if(commandCheck(msg_text+2, (char*)"setowntp ") == 0)
+    {
+        // max. 40 char
+        msg_text[50]=0x00;
+
+        snprintf(meshcom_settings.node_ownntp, sizeof(meshcom_settings.node_ownntp), "%s", msg_text+11);
 
         if(ble)
         {
@@ -4257,6 +4359,7 @@ void commandAction(char *umsg_text, bool ble)
                     Serial.printf("...OWNMS  address: %s\n", meshcom_settings.node_ownms);
                     Serial.printf("...OWNGW  address: %s\n", meshcom_settings.node_owngw);
                     Serial.printf("...OWNDNS address: %s\n", meshcom_settings.node_owndns);
+                    Serial.printf("...OWNNTP address: %s\n", meshcom_settings.node_ownntp);
                 }
             }
 
@@ -4327,17 +4430,15 @@ void commandAction(char *umsg_text, bool ble)
         sensdoc["TYP"] = "SE";
         sensdoc["BME"] = bBMEON;
         sensdoc["BMP"] = bBMPON;
-        sensdoc["BMXF"] = bmx_found;
         sensdoc["BMP3"] = bBMP3ON;
         sensdoc["BMP3F"] = bmp3_found;
+        sensdoc["AHT"] = bAHT20ON;
+        sensdoc["AHTF"] = aht20_found;
+        sensdoc["BMXF"] = bmx_found;
         sensdoc["680"] = bBME680ON;
         sensdoc["680F"] = bme680_found;
         sensdoc["811"] = bMCU811ON;
         sensdoc["811F"] = mcu811_found;
-        sensdoc["226"] = bINA226ON;
-        sensdoc["226F"] = ina226_found;
-        sensdoc["AHT"] = bAHT20ON;
-        sensdoc["AHTF"] = aht20_found;
         sensdoc["SS"] = bSOFTSERON;
         sensdoc["LPS33"] = bLPS33;
         sensdoc["OW"] = bONEWIRE;
@@ -4366,6 +4467,8 @@ void commandAction(char *umsg_text, bool ble)
         sensdoc1["SAMP"] = meshcom_settings.node_isamp;
         sensdoc1["SHT"] = bSHT21ON;
         sensdoc1["SHTF"] = sht21_found;
+        sensdoc1["226"] = bINA226ON;
+        sensdoc1["226F"] = ina226_found;
 
         // reset print buffer
         memset(print_buff, 0, sizeof(print_buff));
@@ -4426,6 +4529,7 @@ void commandAction(char *umsg_text, bool ble)
         swdoc2["OWNGW"] = meshcom_settings.node_owngw;
         swdoc2["OWNMS"] = meshcom_settings.node_ownms;
         swdoc2["OWNDNS"] = meshcom_settings.node_owndns;
+        swdoc2["OWNNTP"] = meshcom_settings.node_ownntp;
         swdoc2["EUDP"] = bEXTUDP;
         swdoc2["EUDPIP"] = meshcom_settings.node_extern;
         swdoc2["TXPOW"] = meshcom_settings.node_wifi_power;

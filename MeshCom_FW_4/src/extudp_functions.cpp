@@ -4,9 +4,15 @@
 #include <loop_functions.h>
 #include <debugconf.h>
 #include "ArduinoJson.h"
+#include <SPI.h>
 
-// WIFI
-#ifdef ESP32
+// WIFI and Ethernet
+#ifdef BOARD_T_ETH_ELITE
+  #include <ETHClass2.h>
+  #include <EthernetUdp.h>
+
+  ETHClass2 ETH;
+#elif defined(ESP32)
   #include <WiFi.h>
   #include <WiFiClient.h>
 #else
@@ -21,12 +27,15 @@ String s_extern_node_ip = "";
 String strExtOutput;
 String str_ip;
 
-#ifdef ESP32
+#ifdef BOARD_T_ETH_ELITE
+  IPAddress extern_node_ip;
+  EthernetUDP UdpExtern;
+#elif defined(ESP32)
   IPAddress extern_node_ip = IPAddress(0,0,0,0);
   WiFiUDP UdpExtern;
 #else
-  EthernetUDP UdpExtern;
   IPAddress extern_node_ip;
+  EthernetUDP UdpExtern;
 #endif
 
 unsigned char incomingExtPacket[UDP_TX_BUF_SIZE];  // buffer for incoming packets
@@ -35,6 +44,24 @@ int packetExtSize=0;
 // Extern JSON UDP
 void startExternUDP()
 {
+  #ifdef BOARD_T_ETH_ELITE
+    static bool ethStarted = false;
+
+   if(!ethStarted)
+   {
+      Serial.println("[ETH] starting ETHClass2");
+
+      ETH.begin();
+
+      delay(2000);
+
+      Serial.print("[ETH] IP: ");
+      Serial.println(ETH.localIP());
+
+      ethStarted = true;
+    }
+  #endif
+
   #ifdef ESP32
     if(bWIFIAP)
       return;
@@ -46,7 +73,9 @@ void startExternUDP()
   if(hasExternIPaddress)
     return;
 
-  #ifdef ESP32
+  #ifdef BOARD_T_ETH_ELITE
+  extern_node_ip = ETH.localIP();
+  #elif defined(ESP32)
     extern_node_ip = WiFi.localIP();
   #else
     extern_node_ip = Ethernet.localIP();
@@ -154,7 +183,7 @@ void getExternUDP()
   }
 }
 
-void sendExtern(bool bUDP, char *src_type, uint8_t buffer[500], uint16_t buflen)
+void sendExtern(bool bUDP, char *src_type, uint8_t buffer[500], uint16_t buflen, int16_t rssi, int8_t snr)
 {
   #ifdef ESP32
     if(bWIFIAP)
@@ -259,6 +288,9 @@ void sendExtern(bool bUDP, char *src_type, uint8_t buffer[500], uint16_t buflen)
       cJson["fw_sub"] = c_fw_sub;
     }
 
+    cJson["rssi"] = rssi;
+    cJson["snr"] = snr;
+
     // clear the buffer
     memset(c_json, 0x00, sizeof(c_json));
     // serialize the json
@@ -346,6 +378,8 @@ void sendExtern(bool bUDP, char *src_type, uint8_t buffer[500], uint16_t buflen)
       }
 
       cJson["fw_sub"] = c_fw_sub;
+      cJson["rssi"] = rssi;
+      cJson["snr"] = snr;
 
       // clear the buffer
       memset(c_json, 0x00, sizeof(c_json));

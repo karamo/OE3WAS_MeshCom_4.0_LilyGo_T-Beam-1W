@@ -77,7 +77,7 @@
                                         // flag to indicate if we are after receiving
 extern unsigned long iReceiveTimeOutTime;
 
-extern unsigned char mheardCalls[MAX_MHEARD][10]; //Ringbuffer for MHeard Key = Call
+extern char mheardCalls[MAX_MHEARD][10]; //Ringbuffer for MHeard Key = Call
 extern double mheardLat[MAX_MHEARD];
 extern double mheardLon[MAX_MHEARD];
 extern int mheardAlt[MAX_MHEARD];
@@ -101,6 +101,20 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 {
     // Debug I: OnRxDone timing — capture start time
     unsigned long _onrxdone_start = millis();
+
+#if defined BOARD_RAK4630
+    // FIX BUG #2 (nRF52): RX sofort neu starten um Blindfenster zu minimieren.
+    // Sicherheitskopie: Payload koennte auf internen Radiopuffer zeigen,
+    // der durch Radio.Rx() ueberschrieben wird.
+    static uint8_t rxPayloadCopy[UDP_TX_BUF_SIZE];
+    uint16_t rxSize = (size <= UDP_TX_BUF_SIZE) ? size : UDP_TX_BUF_SIZE;
+    memcpy(rxPayloadCopy, payload, rxSize);
+    payload = rxPayloadCopy;
+    size = rxSize;
+    Radio.Rx(RX_TIMEOUT_VALUE);
+    if(bLORADEBUG)
+        Serial.printf("[MC-DBG] RX_RESTART_EARLY src=OnRxDone\n");
+#endif
 
     // only for Test T5_EPAPER
     //bDisplayInfo=true;
@@ -282,11 +296,15 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
                 mheardLine.mh_dist = 0;
                 mheardLine.mh_path_len = aprsmsg.msg_last_path_cnt;
                 mheardLine.mh_mesh = aprsmsg.msg_mesh;
+                mheardLine.mh_ncount = 0;
+                mheardLine.mh_path_payload = "";
 
                 if(aprsmsg.payload_type == '@')
                 {
                     ///////////////////////////////////////////////
                     // Path
+                    mheardLine.mh_path_payload = aprsmsg.msg_payload;
+
                     updateHeyPath(mheardLine);
                     //
                     ///////////////////////////////////////////////
@@ -403,17 +421,20 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
             if(is_new_packet(RcvBuffer+1))
             {
                 // :|0x11223344|0x05|OE1KBC|>*:Hallo Mike, ich versuche eine APRS Meldung\0x00
-                switch (msg_type_b_lora)
+                if(bDisplayCont)
                 {
+                    switch (msg_type_b_lora)
+                    {
 
-                    case 0x3A: DEBUG_MSG("RADIO", "Received Textmessage"); break;
-                    case 0x21: DEBUG_MSG("RADIO", "Received PosInfo"); break;
-                    case 0x40: DEBUG_MSG("RADIO", "Received Hey"); break;
-                    default:
-                        DEBUG_MSG("RADIO", "Received unknown");
-                        if(bDEBUG)
-                            printBuffer(RcvBuffer, size);
-                        break;
+                        case 0x3A: DEBUG_MSG("RADIO", "Received Textmessage"); break;
+                        case 0x21: DEBUG_MSG("RADIO", "Received PosInfo"); break;
+                        case 0x40: DEBUG_MSG("RADIO", "Received Hey"); break;
+                        default:
+                            DEBUG_MSG("RADIO", "Received unknown");
+                            if(bDEBUG)
+                                printBuffer(RcvBuffer, size);
+                            break;
+                    }
                 }
 
                 // txtmessage, position, hey
@@ -421,7 +442,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
                 {
                     // Extern Server
                     if(bEXTUDP)
-                        sendExtern(true, (char*)"lora", RcvBuffer, size);
+                        sendExtern(true, (char*)"lora", RcvBuffer, size, rssi, snr);
 
                     // print aprs message
                     if(bDisplayInfo)
@@ -838,12 +859,11 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 
                                 if(aprsmsg.payload_type == '@')
                                 {
-                                    char csmeter[10];
-                                    snprintf(csmeter, sizeof(csmeter), "%.0f", rssi*-1.0);
-                                    aprsmsg.msg_payload.concat(csmeter);
+                                    aprsmsg.msg_payload.concat(String(getMheardCount()));
                                     aprsmsg.msg_payload.concat(',');
-                                    snprintf(csmeter, sizeof(csmeter), "%i", snr);
-                                    aprsmsg.msg_payload.concat(csmeter);
+                                    aprsmsg.msg_payload.concat(String(rssi*-1.0, 0));
+                                    aprsmsg.msg_payload.concat(',');
+                                    aprsmsg.msg_payload.concat(String(snr));
                                     aprsmsg.msg_payload.concat(';');
                                 }
                                 
@@ -908,10 +928,8 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
         }
     }
 
-    #if defined BOARD_RAK4630
-        Radio.Rx(RX_TIMEOUT_VALUE);
-    #endif
-
+    // Note: Radio.Rx() for RAK4630 is now called at the beginning of OnRxDone
+    // to minimize the RX blind window (BUG #2 fix).
 
     // Debug I: ONRXDONE_TIME — measure processing duration
     if(bLORADEBUG)
@@ -1089,7 +1107,7 @@ bool doTX()
                 if(bDisplayInfo)
                 {
                     Serial.print(getTimeString());
-                    Serial.printf(" TX-APRS:%s\n", lora_tx_buffer+3);
+                    Serial.printf(" TX-APRS:%c%02X%02X%s\n", lora_tx_buffer[0], lora_tx_buffer[1], lora_tx_buffer[2], lora_tx_buffer+3);
                 }
 
                 bSetLoRaAPRS = true;

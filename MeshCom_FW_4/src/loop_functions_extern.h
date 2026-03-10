@@ -203,6 +203,11 @@ extern unsigned long posfixinterall;
 extern unsigned long currentWiFiMillis;
 extern unsigned long previousWiFiMillis;
 
+// Timer variables for persitence to SD
+extern unsigned long lastsavePOSPersistence;
+extern unsigned long lastsaveMHEARDPersistence;
+extern unsigned long lastsavePATHPersistence;
+
 extern double posinfo_distance;
 extern double posinfo_direction;
 extern double posinfo_lat;
@@ -222,6 +227,8 @@ extern bool wx_shot;
 extern int no_gps_reset_counter;
 extern int gps_refresh_track;
 
+extern String strNMEA;
+
 extern unsigned long posinfo_timer;      // we check periodically to send GPS
 extern unsigned long posinfo_timer_min;
 extern unsigned long heyinfo_timer;      // we check periodically to send HEY
@@ -236,10 +243,10 @@ extern float global_batt;
 extern int global_proz;
 
 extern unsigned char mheardBuffer[MAX_MHEARD][60]; //Ringbuffer for MHeard Lines
-extern unsigned char mheardCalls[MAX_MHEARD][10]; //Ringbuffer for MHeard Key = Call
+extern char mheardCalls[MAX_MHEARD][10]; //Ringbuffer for MHeard Key = Call
 extern unsigned long mheardEpoch[MAX_MHEARD];  //Ringbuffer for MHeard EPoch Update Time
 
-extern unsigned char mheardPathCalls[MAX_MHPATH][10]; //Ringbuffer for MHeard Key = Call
+extern char mheardPathCalls[MAX_MHPATH][10]; //Ringbuffer for MHeard Key = Call
 extern unsigned long mheardPathEpoch[MAX_MHPATH];  //Ringbuffer for MHeard EPoch Update Time
 extern unsigned char mheardPathBuffer1[MAX_MHPATH][38]; //Ringbuffer for MHeard Sourcepath
 extern uint8_t mheardPathLen[MAX_MHPATH];

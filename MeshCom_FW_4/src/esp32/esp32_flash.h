@@ -156,6 +156,12 @@ struct s_meshcom_settings
 
 	int node_fversion = 1;
 
+	char node_ownntp[40] = {0};
+
+	int node_mversion = 0;
+	char node_fwversion[8] = {0};
+
+	unsigned long node_gpsbaud = 38400;
 
 	// nicht im Flash
 	int node_press_alt = 0;
@@ -169,6 +175,7 @@ struct s_meshcom_settings
 	char node_dns[40] = {0};
 	char node_gw[40] = {0};
 	char node_subnet[40] = {0};
+	char node_ntp[40] = {0};
 	bool node_hasIPaddress = false;
 	unsigned long node_last_upd_timer = 0;
 
@@ -191,12 +198,14 @@ struct s_meshcom_settings
 	bool node_mute = false;
 	// When true: persist every incoming non-system message immediately
 	// (useful for long-running tests; may increase flash wear).
-	bool node_persist_to_flash = true;
-	bool node_persist_to_sd = true;
+	bool node_persist_to_flash = false;
+	bool node_persist_to_sd = false;
 	bool node_immediate_save = false;
 	bool node_kbl_sync = true;
 	bool node_wifion = true;
 	#endif
+
+	uint8_t node_netmode = 0;   // 0 = WiFi, 1 = Ethernet
 };
 
 extern s_meshcom_settings meshcom_settings;

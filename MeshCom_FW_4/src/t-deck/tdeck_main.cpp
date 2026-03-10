@@ -38,9 +38,6 @@ using namespace ace_button;
 #include <esp32/esp32_audio.h>
 #endif
 
-#include "nvs.h"
-#include "nvs_flash.h"
-
 #define I2S_CH I2S_NUM_1
 
 TFT_eSPI            tft;
@@ -184,6 +181,8 @@ void initTDeck()
     lv_table_set_cell_value(position_ta, 0, 2, (char*)"Position");
 
     posrow = 1;
+
+    loadPosPersistence();
 
     lv_tabview_set_act(tv, 0, LV_ANIM_OFF);
 
