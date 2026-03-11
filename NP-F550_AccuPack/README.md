@@ -3,6 +3,7 @@ Gibt es mit verschiedensten Kapazitäten.
 
 * AkkuPack
 * Ladegerät
+* Gehäuse
 
 ### • handelsübliche Produkte
 * https://www.aliexpress.com/w/wholesale-np-f550-battery.html
@@ -41,7 +42,12 @@ Um die Länge des **T-Beam-1W** nicht zu überschreiten, wäre es grundsätzlich
 #### USB-C Charge-Booster  
 <img alt="SB-C_Charge-Booster" src="https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/images/USB-C_Charge-Booster.jpg" />
 
+
+### T-Beam-1W Gehäuse (Case)
+https://www.thingiverse.com/thing:7228975  
+https://www.thingiverse.com/thing:7285240  
+
 ---
-***:copyright: 3.2.2026 by OE3WAS - Wolfgang***
+***:copyright: 11.3.2026 by OE3WAS - Wolfgang***
 
 
