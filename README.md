@@ -27,9 +27,9 @@
 
 ### Implementierung [⬆️](#lilygo-t-beam-1w)
 - [x] LILYGO_T-BEAM-1W_433 => [Überführung in die Standard FW 4.35](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/MeshCom_FW_4/README.md#implementierung)
-- [x] Feldtest läuft
-- [ ] Akku-Pack
-- [ ] Gehäuse
+- [x] Feldtest abgeschlossen - ab **MeshCom FW 4.35o** enthalten
+- [ ] [Akku-Pack](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/NP-F550_AccuPack/README.md#np-f550-accupack)
+- [ ] [Gehäuse](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/NP-F550_AccuPack/README.md#t-beam-1w-geh%C3%A4use-case)
 - [ ] Stift-/Buchse Leiste
 - [ ] Zusatz-PCBs
 - [ ] SD-Card
