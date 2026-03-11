@@ -5,6 +5,8 @@
 * **Variante 3**: https://esptool.spacehuhn.com/ ❗ **Chrome-Browser** ❗
   * ESP32-S3 u.a. Module, die **keinen USB-Serial-Chip** haben, müssen vor dem **`[CONNECT]`** in den **BOOT-Loader-Modus** gebracht werden:  
   ➡️ **BOOT-Taste halten - RESET-Taste drücken und loslassen - BOOT-Taste loslassen**
+  * ❗⚠️ wenn direkt mittels (ab) esptool V5.x geflasht wird, ist der Boot-Modus nicht mehr notwendig, aber in der Befehlszeile müssen zusätzliche Befehlsparameter ergänzt werden (... sind entsprechend auszufüllen):  
+    `PYTHON -m esptool -p ... --baud 921600 -c esp32s3 --before usb-reset -a watchdog-reset write_flash ...`
   * Wenn nach **`[CONNECT]`** im Textfenster "`Couldn't sync to ESP`" auftritt, dann bedeutet das, dass der ESP32 **nicht** im BOOT-Loader-Modus war.
   * Für die verschiedenen Module gibt es dezitierte Verzeichnisse, in denen sich die FW-Dateien (`*.bin`) befinden, die im [esptool](https://esptool.spacehuhn.com) lt. Bild auf richtiger Adresse ausgewählt werden müssen und anschließend **`[PROGRAM]`**
   * nach dem Flashen **RST/RESET**-Taste am Modul drücken und gleich darauf den **Serial-Monitor in VCS** starten (ist gleichbedeutend mit einem Terminal).
@@ -38,4 +40,4 @@ z.B. auch hier wird es korrekt beschrieben: https://prilchen.de/belegungsplan-es
 <img width="339" height="236" alt="grafik" src="https://github.com/user-attachments/assets/869b74d0-da1f-4b65-9130-b35545079fcb" />
 
 ----
-***:copyright: 3.2.2026 by OE3WAS - Wolfgang***
+***:copyright: 11.3.2026 by OE3WAS - Wolfgang***
