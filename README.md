@@ -27,9 +27,9 @@
 
 ### Implementierung [⬆️](#lilygo-t-beam-1w)
 - [x] LILYGO_T-BEAM-1W_433 => [Überführung in die Standard FW 4.35](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/MeshCom_FW_4/README.md#implementierung)
-- [x] Feldtest läuft
-- [ ] Akku-Pack
-- [ ] Gehäuse
+- [x] Feldtest abgeschlossen - ab **MeshCom FW 4.35o** enthalten
+- [ ] [Akku-Pack](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/NP-F550_AccuPack/README.md#np-f550-accupack)
+- [ ] [Gehäuse](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/NP-F550_AccuPack/README.md#t-beam-1w-geh%C3%A4use-case)
 - [ ] Stift-/Buchse Leiste
 - [ ] Zusatz-PCBs
 - [ ] SD-Card
@@ -126,15 +126,14 @@ siehe: [firmware-upload](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-B
 
 ---
 ### P5/P6 Stift-/Buchsenleiste [⬆️](#lilygo-t-beam-1w)
-<img width="663" height="355" alt="grafik" src="https://github.com/user-attachments/assets/7821b069-caec-45c8-a940-28dc79163e76" />
 
 ---
 ### QWIIC-Stecker [⬆️](#lilygo-t-beam-1w)
-<img width="242" height="216" alt="grafik" src="https://github.com/user-attachments/assets/8e99959b-7b9b-415f-9cc3-98a9cf5135e7" />
+<img width="300" src="https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/images/QWICC-Buchse.jpg" />
 
 #### Hier CN2 = I2C Adapterkabel eingesteckt
 sw = GND, rt = +3.3V, bl = SDA, gb = SCL  
-<img width="400" alt="grafik" src="https://github.com/user-attachments/assets/05378f55-cb6c-42f1-9869-e43d30c664f2" />
+<img width="400" alt="grafik" src="https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/images/QWIIC-I2C-IIC.jpg" />
 
 ---
 〰️ ☑️⭕️🚫⚠️🔴🟠🟡🟢🔵🟣⚫️⚪️🟤🔷🔹❗  
@@ -153,7 +152,7 @@ sw = GND, rt = +3.3V, bl = SDA, gb = SCL
 * When testing or using, connect the antenna first, then power on to transmit the signal.
 * The module uses a high-gain, high-efficiency power amplifier. When the output power of SX1262 is +22dBm (max), the module output power is maximum.
 * Suggestion: Please give the internal PA stabilization time before transmitting data: For SX1262 chip, the recommended configuration value is >800us  
-<img width="447" height="308" alt="grafik" src="https://github.com/user-attachments/assets/9e8e0751-901b-4a4c-a545-17a5fddf39d9" />
+<img width="447" height="308" alt="grafik" src="https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/documents_original/images/RampTime.jpg" />
 
 * Wenn das Modul bereit ist, Daten zu senden/empfangen, muss man den RF-Schalter des Moduls im Voraus auf den Sende-/Empfangskanal umschalten. Dieser Schalter ist ein einpoliger Doppeldrehschalter.
 * **Während des TX DATA ist es wahrscheinlich, dass der PA-Chip im Modul beschädigt wird, wenn der Schalter nicht vorher in die richtige Position geschaltet wird.**
@@ -187,5 +186,5 @@ https://xiaolongbupt.github.io/homepage_files/[Paper]LoRadar_INFOCOM2022.pdf
 * Ich weise auf die gesetzlichen Bestimmungen bez. Elektrogeräten, Funkanlagen u.ä. hin, die von jedem Anwender selber einzuhalten sind.
 
 ---
-***:copyright: 22.2.2026 by OE3WAS - Wolfgang***
+***:copyright: 11.3.2026 by OE3WAS - Wolfgang***
 
