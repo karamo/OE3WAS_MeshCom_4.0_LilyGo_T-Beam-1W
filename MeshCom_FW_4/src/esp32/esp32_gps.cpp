@@ -14,6 +14,8 @@
 #include <TinyGPSPlus.h>
 #include <command_functions.h>
 
+#include <SoftwareSerial.h>
+
 #define GPS_DEFAULT_BAUDRATE 9600
 #define GPS_BAUDRATE 38400
 
@@ -423,10 +425,8 @@ unsigned int readGPS(void)
             char c = gpsSerial.read();
             if(((c>=0x20) && (c<0x7f)) || (c==0x0A) || (c==0x0D))
             {
-                if (tinyGPSPlus.encode(c))
-                {
-                    newData = true;
-                }
+                if (tinyGPSPlus.encode(c)) { newData = true; }
+                if(bGPSDEBUG) { Serial.print(c); }
             }
         }
         if (BurstStart && (GPStimeout+20) < millis()) break;

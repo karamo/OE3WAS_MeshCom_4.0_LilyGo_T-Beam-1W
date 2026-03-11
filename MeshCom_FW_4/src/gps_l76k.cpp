@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <SoftwareSerial.h>
 
 #include <configuration.h>
 
@@ -11,7 +12,12 @@
 
 #include <gps_l76k.h>
 
-extern HardwareSerial gpsSerial;
+#if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS) || defined (BOARD_TRACKER)
+    HardwareSerial gpsSerial(1);
+#else
+  #include "SoftwareSerial.h"
+  extern SoftwareSerial gpsSerial;
+#endif
 
 #include <TinyGPSPlus.h>
 
@@ -26,12 +32,12 @@ bool l76kProbe()
     delay(500);
     // Get version information
     startTimeout = millis() + 4000;
-    Serial.print("[GPSL]...Try to init GNSS . Wait stop .");
+    Serial.printf("\n[GPSL]...Try to init GNSS @ %lu Wait stop ...\n", meshcom_settings.node_gpsbaud);
 
     while (gpsSerial.available() > 0)
     {
         char c = gpsSerial.read();
-        Serial.print(c);
+        if(bGPSDEBUG) Serial.print(c);
 
         if (millis() > startTimeout)
         {
@@ -52,21 +58,23 @@ bool l76kProbe()
     {
         if (millis() > startTimeout)
         {
-            Serial.println("[GPSL]...Get GNSS timeout!");
+            Serial.println("[GPSL]...Get GNSS-Probe timeout!");
             return false;
         }
     }
-    gpsSerial.setTimeout(10);
+    gpsSerial.setTimeout(40);
     ver = gpsSerial.readStringUntil('\n');
+    if(bGPSDEBUG) Serial.printf("\nProbe: %s\n", ver.c_str());
     if (ver.startsWith("$GPTXT,01,01,02") || ver.startsWith("$GNTXT,01,01,01,PCAS"))
     {
-        Serial.print("[GPSL]...GNSS init succeeded, using GNSS Module: ");
+        Serial.print("\n[GPSL]...GNSS init succeeded, using GNSS Module: ");
 
-        if(ver.indexOf("PCAS inv format*23") > 0)
-            Serial.println("L76K");
-        else
+        if(ver.indexOf("PCAS inv format") > 0) {
             Serial.println("UBLOX GNSS");
-        result = true;
+        } else { 
+          Serial.println("L76K");
+          result = true;
+        }
     }
     delay(500);
 
@@ -78,6 +86,10 @@ bool l76kProbe()
     delay(250);
     // Switch to Vehicle Mode, since SoftRF enables Aviation < 2g
     gpsSerial.write("$PCAS11,3*1E\r\n");
+
+    // hier noch Baudrate auf 38400 umschalten
+    // ...
+
     return result;
 }
 
@@ -92,7 +104,7 @@ void gpsInitTask(void *parameter) {
         if(bGPSDEBUG)
             Serial.printf("[GPS ]...check %lubaud\n", meshcom_settings.node_gpsbaud);
 
-        gpsSerial.begin(meshcom_settings.node_gpsbaud, SERIAL_8N1, GPS_RX_PIN, GPS_TX_PIN);
+        gpsSerial.begin(meshcom_settings.node_gpsbaud);
         for ( int i = 0; i < 3; ++i)
         {
             result = l76kProbe();
@@ -107,7 +119,7 @@ void gpsInitTask(void *parameter) {
         if(bGPSDEBUG)
             Serial.println("[GPS ]...check 38400baud");
 
-        gpsSerial.begin(38400, SERIAL_8N1, GPS_RX_PIN, GPS_TX_PIN);
+        gpsSerial.begin(38400);
         for ( int i = 0; i < 3; ++i)
         {
             result = l76kProbe();
@@ -124,7 +136,7 @@ void gpsInitTask(void *parameter) {
         if(bGPSDEBUG)
             Serial.println("[GPS ]...check 115200baud");
 
-        gpsSerial.begin(115200, SERIAL_8N1, GPS_RX_PIN, GPS_TX_PIN);
+        gpsSerial.begin(115200);
         for ( int i = 0; i < 3; ++i)
         {
             result = l76kProbe();
@@ -141,7 +153,7 @@ void gpsInitTask(void *parameter) {
         if(bGPSDEBUG)
             Serial.println("[GPS ]...check 9600baud");
 
-        gpsSerial.begin(9600, SERIAL_8N1, GPS_RX_PIN, GPS_TX_PIN);
+        gpsSerial.begin(9600);
         for ( int i = 0; i < 3; ++i)
         {
             result = l76kProbe();
@@ -177,13 +189,31 @@ void stopL76KGPS()
 
 unsigned int loopL76KGPS()
 {
+  if(bGPSDEBUG) Serial.println("-----------check L76K GPS-----------");
+
+  bool newData = false;
+  unsigned long start = millis();
+  unsigned long GPStimeout = millis();
+  bool BurstStart = false;
+
+  while ((millis() - start) < 10000)  // weil nur 9600 verbunden ist
+  {
     while (gpsSerial.available() > 0)
     {
-        tinyGPSPlus.encode(gpsSerial.read());
+      BurstStart = true;
+      GPStimeout = millis();
+      char c = gpsSerial.read();
+      if(bGPSDEBUG) { Serial.print(c); }
+      if(((c>=0x20) && (c<0x7f)) || (c==0x0A) || (c==0x0D))
+      {
+        if (tinyGPSPlus.encode(c)) { newData = true; }
+      }
     }
-
-    return displayInfo();
- }
+    if (BurstStart && ((GPStimeout+500) < millis())) break;
+  }
+  newData = newData; // um compiler ruhig zu stellen
+  return displayInfo();
+}
  
  
 unsigned int displayInfo()
@@ -195,7 +225,7 @@ unsigned int displayInfo()
 
     if(bGPSDEBUG)
     {
-        Serial.printf("[GPS ]...sat_count:%i hdop:%i time_update:%i location_update:%i\n", posinfo_satcount, posinfo_hdop, gps_time_update, gps_loc_update);
+        Serial.printf("\n[GPS ]...sat_count:%i hdop:%i time_update:%i location_update:%i\n", posinfo_satcount, posinfo_hdop, gps_time_update, gps_loc_update);
 
         Serial.print("[GPS ]...Time <UTC>: ");
         if (tinyGPSPlus.time.hour() < 10) Serial.print(F("0"));
