@@ -8,7 +8,7 @@
 * [Wie Kompilieren?](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#wie-kompilieren-%EF%B8%8F)
 * [Wie Modul Flashen?](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#wie-modul-flashen-%EF%B8%8F)
 * [Pin Map](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#pin-map-%EF%B8%8F)
-* [P5/P6 Stift-/Buchsenleiste](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#p5p6-stift-buchsenleiste-%EF%B8%8F)
+* [Pinning & externe Verbinder](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#pinning--externe-verbinder-%EF%B8%8F)
 * [QWICC-Stecker](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#qwiic-stecker-%EF%B8%8F)
 
 ---
