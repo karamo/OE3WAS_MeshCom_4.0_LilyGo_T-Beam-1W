@@ -125,7 +125,7 @@ siehe: [firmware-upload](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-B
 🔷 = intern aber verwendbar
 
 ---
-### externe Verbinder [⬆️](#lilygo-t-beam-1w)
+### Pinning & externe Verbinder [⬆️](#lilygo-t-beam-1w)
 <img src="https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/documents_original/images/T-Beam_1W.PNG" />
 
 ---
