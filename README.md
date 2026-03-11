@@ -126,15 +126,14 @@ siehe: [firmware-upload](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-B
 
 ---
 ### P5/P6 Stift-/Buchsenleiste [⬆️](#lilygo-t-beam-1w)
-<img width="663" height="355" alt="grafik" src="https://github.com/user-attachments/assets/7821b069-caec-45c8-a940-28dc79163e76" />
 
 ---
 ### QWIIC-Stecker [⬆️](#lilygo-t-beam-1w)
-<img width="242" height="216" alt="grafik" src="https://github.com/user-attachments/assets/8e99959b-7b9b-415f-9cc3-98a9cf5135e7" />
+<img width="300" src="https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/images/QWICC-Buchse.jpg" />
 
 #### Hier CN2 = I2C Adapterkabel eingesteckt
 sw = GND, rt = +3.3V, bl = SDA, gb = SCL  
-<img width="400" alt="grafik" src="https://github.com/user-attachments/assets/05378f55-cb6c-42f1-9869-e43d30c664f2" />
+<img width="400" alt="grafik" src="https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/images/QWIIC-I2C-IIC.jpg" />
 
 ---
 〰️ ☑️⭕️🚫⚠️🔴🟠🟡🟢🔵🟣⚫️⚪️🟤🔷🔹❗  
@@ -187,5 +186,5 @@ https://xiaolongbupt.github.io/homepage_files/[Paper]LoRadar_INFOCOM2022.pdf
 * Ich weise auf die gesetzlichen Bestimmungen bez. Elektrogeräten, Funkanlagen u.ä. hin, die von jedem Anwender selber einzuhalten sind.
 
 ---
-***:copyright: 22.2.2026 by OE3WAS - Wolfgang***
+***:copyright: 11.3.2026 by OE3WAS - Wolfgang***
 
