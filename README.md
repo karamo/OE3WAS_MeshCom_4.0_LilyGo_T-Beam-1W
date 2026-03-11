@@ -152,7 +152,7 @@ sw = GND, rt = +3.3V, bl = SDA, gb = SCL
 * When testing or using, connect the antenna first, then power on to transmit the signal.
 * The module uses a high-gain, high-efficiency power amplifier. When the output power of SX1262 is +22dBm (max), the module output power is maximum.
 * Suggestion: Please give the internal PA stabilization time before transmitting data: For SX1262 chip, the recommended configuration value is >800us  
-<img width="447" height="308" alt="grafik" src="https://github.com/user-attachments/assets/9e8e0751-901b-4a4c-a545-17a5fddf39d9" />
+<img width="447" height="308" alt="grafik" src="https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/documents_original/images/RampTime.jpg" />
 
 * Wenn das Modul bereit ist, Daten zu senden/empfangen, muss man den RF-Schalter des Moduls im Voraus auf den Sende-/Empfangskanal umschalten. Dieser Schalter ist ein einpoliger Doppeldrehschalter.
 * **Während des TX DATA ist es wahrscheinlich, dass der PA-Chip im Modul beschädigt wird, wenn der Schalter nicht vorher in die richtige Position geschaltet wird.**
