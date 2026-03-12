@@ -12,7 +12,7 @@
 
 #include <gps_l76k.h>
 
-#if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS) || defined (BOARD_TRACKER)
+#if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS) || defined(BOARD_TRACKER) || defined(BOARD_TBEAM_1W)
     HardwareSerial gpsSerial(1);
 #else
   #include "SoftwareSerial.h"
@@ -187,14 +187,22 @@ void stopL76KGPS()
     posinfo_hdop = 0;
 }
 
+bool newData = false;
+
 unsigned int loopL76KGPS()
 {
   if(bGPSDEBUG) Serial.println("-----------check L76K GPS-----------");
 
-  bool newData = false;
+  newData = false;
   unsigned long start = millis();
   unsigned long GPStimeout = millis();
   bool BurstStart = false;
+  char c = '0';
+  char ziel[200];
+  int j = 0;
+  ziel[j] = '\0';
+
+  gpsSerial.flush(); // Empfangs-Buffer (=64 Zeichen) löschen
 
   while ((millis() - start) < 10000)  // weil nur 9600 verbunden ist
   {
@@ -202,15 +210,18 @@ unsigned int loopL76KGPS()
     {
       BurstStart = true;
       GPStimeout = millis();
-      char c = gpsSerial.read();
-      if(bGPSDEBUG) { Serial.print(c); }
+      c = gpsSerial.read();
+
       if(((c>=0x20) && (c<0x7f)) || (c==0x0A) || (c==0x0D))
       {
+        ziel[j] = c; j++; ziel[j] = '\0'; // Zeichen akkumulieren
         if (tinyGPSPlus.encode(c)) { newData = true; }
       }
     }
-    if (BurstStart && ((GPStimeout+500) < millis())) break;
+    if (BurstStart && ((GPStimeout+100) < millis()) ) break;
   }
+  if(bGPSDEBUG) { Serial.printf("Rec:%s\n", ziel); }
+
   newData = newData; // um compiler ruhig zu stellen
   return displayInfo();
 }
@@ -341,7 +352,7 @@ unsigned int displayInfo()
                 posinfo_age = 0;
         
                 if(bGPSDEBUG)
-                    Serial.println(F("INVALID"));
+                    Serial.println(F(" INVALID"));
             }
         }
         else
@@ -351,7 +362,7 @@ unsigned int displayInfo()
             posinfo_distance = 0;
 
             if(bGPSDEBUG)
-                Serial.println(F("INVALID"));
+                Serial.println(F(" INVALID"));
         }
 
         if(bGPSDEBUG)
@@ -362,7 +373,7 @@ unsigned int displayInfo()
         posinfo_fix = false;
 
         if(bGPSDEBUG)
-            Serial.println(F("INVALID"));   
+            Serial.println(F(" INVALID"));   
     }
 
     return POSINFO_INTERVAL;

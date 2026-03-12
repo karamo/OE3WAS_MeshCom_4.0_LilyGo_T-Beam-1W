@@ -429,7 +429,7 @@ unsigned int readGPS(void)
                 if(bGPSDEBUG) { Serial.print(c); }
             }
         }
-        if (BurstStart && (GPStimeout+20) < millis()) break;
+        if (BurstStart && (GPStimeout+20) < millis()) break;  // 20ms nach letztem Zeichen while verlassen
     }
 
     if(tinyGPSPlus.satellites.isValid())
