@@ -2,7 +2,6 @@
 <h1 align = "center">🌟LilyGo T-Beam-1W🌟</h1>
 
 * [Intention](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#intention-%EF%B8%8F)
-* [ToDo-List](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#todo-list-%EF%B8%8F)
 * [Implementierung](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#implementierung-%EF%B8%8F)
 * [Key-Components](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#key-components-%EF%B8%8F)
 * [Wie Kompilieren?](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#wie-kompilieren-%EF%B8%8F)
@@ -18,16 +17,12 @@
 * Dokumentation spezieller Details der **MeshCom-FW**.
 
 ---
-### ToDo-List [⬆️](#lilygo-t-beam-1w)
-- [x] **Vorbereitung**: Start mit FW-Version 4.35k.02.02 (fork von [**MeshCom-FW**  ](https://github.com/icssw-org/MeshCom-Firmware))
-- [x] [**Pin Map**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/README.md#pin-map-%EF%B8%8F)
-- [x] [**examples**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples#fw-beispiele)
-- [x] [**examples2**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples2#fw-beispiele)
-- [x] [**RadioLib_Ping-Pong**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/RadioLib_PingPong)
-
 ### Implementierung [⬆️](#lilygo-t-beam-1w)
 - [x] LILYGO_T-BEAM-1W_433 => [Überführung in die Standard FW 4.35](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/MeshCom_FW_4/README.md#implementierung)
 - [x] Feldtest abgeschlossen - ab **MeshCom FW 4.35o** enthalten
+- [x] [**examples**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples#fw-beispiele)
+- [x] [**examples2**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/examples2#fw-beispiele)
+- [x] [**RadioLib_Ping-Pong**](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/RadioLib_PingPong)
 - [ ] [Akku-Pack](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/NP-F550_AccuPack/README.md#np-f550-accupack)
 - [ ] [Gehäuse](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/NP-F550_AccuPack/README.md#t-beam-1w-geh%C3%A4use-case)
 - [ ] Stift-/Buchse Leiste
@@ -126,7 +121,7 @@ siehe: [firmware-upload](https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-B
 
 ---
 ### Pinning & externe Verbinder [⬆️](#lilygo-t-beam-1w)
-<img src="https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/documents_original/images/T-Beam_1W.PNG" />
+<img src="https://github.com/karamo/OE3WAS_MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/images/T-Beam_1W.PNG" />
 
 ---
 ### QWIIC-Stecker [⬆️](#lilygo-t-beam-1w)
@@ -187,5 +182,5 @@ https://xiaolongbupt.github.io/homepage_files/[Paper]LoRadar_INFOCOM2022.pdf
 * Ich weise auf die gesetzlichen Bestimmungen bez. Elektrogeräten, Funkanlagen u.ä. hin, die von jedem Anwender selber einzuhalten sind.
 
 ---
-***:copyright: 11.3.2026 by OE3WAS - Wolfgang***
+***:copyright: 16.3.2026 by OE3WAS - Wolfgang***
 
