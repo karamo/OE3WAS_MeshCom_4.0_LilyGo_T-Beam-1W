@@ -5,21 +5,11 @@ wolfgang z, [03.02.2026 20:37]
 default ist 8 dBm - glaube ich - eingestellt. Du kannst von 2 - 22 dBm einstellen. Das mapping auf die reale HP-Leistung ist von LilyGo nicht verfügbar und ist auch von der Frequenz abhängig. 1W = 30 dBm
 siehe Originalunterlagen von LilyGo
 
-wolfgang z, [03.02.2026 20:38]
-https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/tree/main/documents_original
-
-wolfgang z, [03.02.2026 20:38]
-https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/documents_original/images/currnetA.jpg
-
-Wolf, [03.02.2026 20:43]
-Ok, ich habe quasi mit 22 dann schon maximale Treiberleistung..
-
 Wolf, [03.02.2026 20:49]
 Ok, da steht auch das man mit einem Delay Daten senden sollte... Wegen der PA..
 
 wolfgang z, [03.02.2026 20:53]
-ist eingebaut in der FW
-und auch in der  PingPong-FW
+ist eingebaut in der FW und auch in der PingPong-FW
 
 Wolf, [03.02.2026 20:54]
 Findet man denn irgendwo in eine Protokoll eine Information das die PA auch ihren Job macht. Über die Temp oder einen Current.?
@@ -28,9 +18,7 @@ wolfgang z, [03.02.2026 20:56]
 Nein
 1) Ich habe einen 2-Punkt-Regler eingebaut, der die NTC-Temperatur misst und den Lüfter entsprechend ansteuert.
 2) Deswegen gibt es ja auch meine PingPong-FW, um verschiedene Boards und Einstellungen und Antennen gegeneinander zu testen.
-
-wolfgang z, [03.02.2026 20:58]
-Die NTC-Temperatur und der Status des Lüfters wird am Terminal ausgegeben.
+3) Die NTC-Temperatur und der Status des Lüfters wird am Terminal ausgegeben.
 
 Wolf, [03.02.2026 20:58]
 Ok.. Pingpong. Das läuft dann als Alternative zur normalen Firmware? Ich habe jetzt ja das MeshDash wieder verbunden. Das wäre dann alles wieder weg, die Settings usw?
@@ -40,25 +28,15 @@ Ja, alternativ zur MC-FW, aber die "Gegenstelle" muss die auch geflasht haben.
 Settings bleiben, da dieser NVS-Bereich nicht angetastet wird. Man muss nur einfach alle 5 Dateien von MC wieder flashen um zu MC zurück zu kehren.
 Daher gibt es von mir auch die .bat Dateien, um das sehr schnell erledigen zu können.
 
-wolfgang z, [03.02.2026 21:02]
 du bist sicher in der Lage, diese  Flash_T-BEAM-1W_full.bat herzunehmen und eine entsprechende .sh Datei zu erstellen.
 wäre eine gute Sache, wenn das wer machen würde.
-
-Wolf, [03.02.2026 21:04]
-Als Linux Versteher, sicher. 😁 Aber eine Gegenstelle, da muss ich mal einen OM mit Meshtastic Ambitionen überreden...
-
-Wolf, [03.02.2026 21:04]
-Die sind hier oben stark in der Überzahl... 🙈
 
 wolfgang z, [03.02.2026 21:04]
 NTC-Temp: 25.246_°C 1928_raw 1659.000_mV 9891.50_Ohm
 21:04:24;[TEMP];25.25;off
 
 wolfgang z, [03.02.2026 21:05]
-Aber Achtung! Es gibt nur 3 Boards derzeit, die von PongPong unterstützt werden.
-
-Wolf, [03.02.2026 21:06]
-Oh, das hatte ich schon gesehen.
+Aber Achtung! Es gibt nur eine begrenzte Anzahl von Boards derzeit, die von PongPong unterstützt werden.
 
 Wolf, [03.02.2026 21:06]
 Oh, na viele nutzen Heltec V3
@@ -76,11 +54,10 @@ Mit diesem Akku. Der macht ja keinen Sinn, weil er nicht geladen wird. Was passi
 wolfgang z, [03.02.2026 21:20]
 nix passiert, außer das der PA mit 6,5V statt 5V versorgt wird und damit möglicherweise mehr Leitung abgeben kann.
 Beide sind entkoppelt.
-Geladen wird der Akku deswegen nicht, da 2S Konfiguration und handelsübliches Produkt für Kameras z.B.
+Geladen wird der Akku deswegen nicht, da die eine 2S Konfiguration sind und handelsübliches Produkt für Kameras z.B.
 
-wolfgang z, [03.02.2026 21:21]
 Aber ich plane, eine DIY-Lösung mit BMS und USB-Booster.
-Siehe GitHub !!!
+
 
 Wolf, [03.02.2026 21:22]
 Der Akku ist dann irgendwann auf 5 Volt runter und bleibt da dann?
