@@ -19,7 +19,7 @@
 #define GPS_DEFAULT_BAUDRATE 9600
 #define GPS_BAUDRATE 38400
 
-#if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS) || defined (BOARD_TRACKER)
+#if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS) || defined (BOARD_TRACKER) || defined(BOARD_TBEAM_1W)
     HardwareSerial gpsSerial(1);
 #else
 #include "SoftwareSerial.h"

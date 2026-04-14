@@ -1084,6 +1084,9 @@ void esp32setup()
             delay(200);
         #endif
 
+        //testweise
+        Serial.printf("[XXXXXXX] setDio2AsRfSwitch = %u", radio.setDio2AsRfSwitch(true));
+
         #ifdef RADIO_CTRL
             // T-BEAM-1W LoRa RX/TX Control. RADIO_CTRL controls the LNA, not the PA.
             // Only when RX DATA is on, set to 1 to turn on LNA.

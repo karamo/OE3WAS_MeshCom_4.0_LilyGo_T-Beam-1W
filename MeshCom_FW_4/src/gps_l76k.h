@@ -14,4 +14,5 @@
 
 #endif
 
+extern HardwareSerial gpsSerial();
 #endif

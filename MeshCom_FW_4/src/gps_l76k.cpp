@@ -12,12 +12,14 @@
 
 #include <gps_l76k.h>
 
+/* schon in esp32_gps.cpp definiert
 #if defined(BOARD_T_DECK) || defined(BOARD_T_DECK_PLUS) || defined(BOARD_TRACKER) || defined(BOARD_TBEAM_1W)
     HardwareSerial gpsSerial(1);
 #else
   #include "SoftwareSerial.h"
   extern SoftwareSerial gpsSerial;
 #endif
+*/
 
 #include <TinyGPSPlus.h>
 
