@@ -208,7 +208,8 @@ void setup()
     // Sets transmission output power.
     // SX1262 :  Allowed values are in range from -9 to 22 dBm.
     // This method is virtual to allow override from the SX1261 class
-    if (radio.setOutputPower(CONFIG_RADIO_OUTPUT_POWER) == RADIOLIB_ERR_INVALID_OUTPUT_POWER) {
+    Serial.println("set TXpower");
+    if (radio.setOutputPower(CONFIG_RADIO_OUTPUT_POWER, false) == RADIOLIB_ERR_INVALID_OUTPUT_POWER) {
         Serial.println("Selected output power is invalid for this module! >>>>> stopped");
         while (true);
     }
