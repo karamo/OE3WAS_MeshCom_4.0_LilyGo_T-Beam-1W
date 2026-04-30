@@ -35,7 +35,7 @@ Timeout timerSerial;
 
 //=======================================================================================
 #ifndef CONFIG_RADIO_OUTPUT_POWER
-    #define CONFIG_RADIO_OUTPUT_POWER   10
+    #define CONFIG_RADIO_OUTPUT_POWER   2
 #endif
 
 #if defined(USING_SX1262)
@@ -263,7 +263,7 @@ void loop()
             Serial.printf("failed, code %u", transmissionState);
         }
 
-        delay(5000);  // wait a second before transmitting again
+        delay(30000);  // wait some seconds before transmitting again
 
         payload = "TB-1W #" + String(counter++);
         drawMain();

@@ -1076,6 +1076,8 @@ void esp32setup()
     #else
         Serial.print(F(" Initializing ... "));
 
+        int state = radio.begin(433.175F);
+
         #if defined(BOARD_TBEAM_1W)
         #ifdef RADIO_LDO_EN
             // T-BEAM-1W Control SX1262, LNA, must set RADIO_LDO_EN to HIGH to power the Radio
@@ -1096,8 +1098,6 @@ void esp32setup()
             delay(200);
         #endif
         #endif
-
-        int state = radio.begin(433.175F);
 
     #endif
     
@@ -1213,7 +1213,7 @@ void esp32setup()
         save_settings();
         Serial.printf("[LoRa]...RF_POWER: %d dBm\n", tx_power);
 
-        if (radio.setOutputPower(tx_power) == RADIOLIB_ERR_INVALID_OUTPUT_POWER) {
+        if (radio.setOutputPower(tx_power,false) == RADIOLIB_ERR_INVALID_OUTPUT_POWER) {
             Serial.println(F("Selected output power is invalid for this module!"));
             while (true);
         }
