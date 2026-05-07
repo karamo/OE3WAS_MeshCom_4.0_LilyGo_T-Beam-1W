@@ -1,35 +1,24 @@
 ### • Die 1W, sind die immer aktiv? Muss der Power Regler auf 22 stehen?
 
-A: default ist 8 dBm eingestellt. Du kannst mit **`--TXpower xx`** von **xx = -9 .. +22 dBm** einstellen. Das mapping auf die reale HP-Leistung ist von LilyGo nicht verfügbar und ist auch von der Frequenz abhängig.  
+**A:** default ist 8 dBm eingestellt. Du kannst mit **`--TXpower xx`** von **xx = -9 .. +22 dBm** einstellen. Das mapping auf die reale HP-Leistung ist von LilyGo nicht verfügbar und ist auch von der Frequenz abhängig.  
 1W = 30 dBm, siehe Originalunterlagen von LilyGo  
+⚠️ In der Library **RadioLib** erfolgt eine "Optimierung", die bewirkt, dass der eingestellte Wert von TXpower NICHT dem realen HF-Output entspricht. Ev. wird in einer neueren FW dies abgestellt.
 
+### • Da steht auch, dass man Daten mit einem Delay senden sollte, wegen der PA
+**A:** ist eingebaut in der FW und auch in der PingPong-FW
 
-Wolf, [03.02.2026 20:49]
-Ok, da steht auch das man mit einem Delay Daten senden sollte... Wegen der PA..
-
-wolfgang z, [03.02.2026 20:53]
-ist eingebaut in der FW und auch in der PingPong-FW
-
-Wolf, [03.02.2026 20:54]
-Findet man denn irgendwo in eine Protokoll eine Information das die PA auch ihren Job macht. Über die Temp oder einen Current.?
-
-wolfgang z, [03.02.2026 20:56]
-Nein
+### • Findet man irgendwo in einem Protokoll eine Information, dass die PA auch ihren Job macht. Über die Temp oder einen Current?
+**A:** Nein, ABER:
 1) Ich habe einen 2-Punkt-Regler eingebaut, der die NTC-Temperatur misst und den Lüfter entsprechend ansteuert.
 2) Deswegen gibt es ja auch meine PingPong-FW, um verschiedene Boards und Einstellungen und Antennen gegeneinander zu testen.
-3) Die NTC-Temperatur und der Status des Lüfters wird am Terminal ausgegeben.
+3) Die NTC-Temperatur und der Status des Lüfters wird am Terminal ausgegeben, wenn **`--wxdebug on`** ist.
 
-Wolf, [03.02.2026 20:58]
-Ok.. Pingpong. Das läuft dann als Alternative zur normalen Firmware? Ich habe jetzt ja das MeshDash wieder verbunden. Das wäre dann alles wieder weg, die Settings usw?
-
-wolfgang z, [03.02.2026 21:00]
-Ja, alternativ zur MC-FW, aber die "Gegenstelle" muss die auch geflasht haben.
-Settings bleiben, da dieser NVS-Bereich nicht angetastet wird. Man muss nur einfach alle 5 Dateien von MC wieder flashen um zu MC zurück zu kehren.
+### • Die PingPong-FW läuft dann als Alternative zur normalen Firmware? Ich habe jetzt MeshCom wieder geflasht. Sind dann alle Settings weg?
+**A:** Ja, alternativ zur MC-FW, aber die "Gegenstelle" muss auch dei PingPong-FW geflasht haben.  
+Settings bleiben erhalten, da dieser NVS-Bereich nicht angetastet wird. Man muss nur einfach alle 5 Dateien von MC wieder flashen, um zu MC zurück zu kehren.  
 Daher gibt es von mir auch die .bat Dateien, um das sehr schnell erledigen zu können.
 
-du bist sicher in der Lage, diese  Flash_T-BEAM-1W_full.bat herzunehmen und eine entsprechende .sh Datei zu erstellen.
-wäre eine gute Sache, wenn das wer machen würde.
-
+### •••
 wolfgang z, [03.02.2026 21:04]
 NTC-Temp: 25.246_°C 1928_raw 1659.000_mV 9891.50_Ohm
 21:04:24;[TEMP];25.25;off
