@@ -32,6 +32,9 @@ Um die Länge des **T-Beam-1W** nicht zu überschreiten, wäre es grundsätzlich
 * **18490/18500** https://www.akkushop-austria.at/nitecore-imr-18490-li-ion-akku-1100mah-mit-flachem-kopf-am-pluspol-abmessungen-ca.-49x18mm
 * u.v.a.
 
+### Messung der Laufzeit
+•••
+
 #### BMS-2S HW-391  
 <img alt="BMS-2S HW-391" src="https://github.com/karamo/MeshCom_4.0_LilyGo_T-Beam-1W/blob/main/images/BMS-2S.jpg" />
 
