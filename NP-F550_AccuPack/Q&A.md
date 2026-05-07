@@ -1,9 +1,8 @@
-Wolf, [03.02.2026 20:26]
-Die 1Watt, sind die immer aktiv? Muss der Power Regler auf 22 stehen?
+### • Die 1W, sind die immer aktiv? Muss der Power Regler auf 22 stehen?
 
-wolfgang z, [03.02.2026 20:37]
-default ist 8 dBm - glaube ich - eingestellt. Du kannst von 2 - 22 dBm einstellen. Das mapping auf die reale HP-Leistung ist von LilyGo nicht verfügbar und ist auch von der Frequenz abhängig. 1W = 30 dBm
-siehe Originalunterlagen von LilyGo
+A: default ist 8 dBm eingestellt. Du kannst mit **`--TXpower xx`** von **xx = -9 .. +22 dBm** einstellen. Das mapping auf die reale HP-Leistung ist von LilyGo nicht verfügbar und ist auch von der Frequenz abhängig.  
+1W = 30 dBm, siehe Originalunterlagen von LilyGo  
+
 
 Wolf, [03.02.2026 20:49]
 Ok, da steht auch das man mit einem Delay Daten senden sollte... Wegen der PA..
