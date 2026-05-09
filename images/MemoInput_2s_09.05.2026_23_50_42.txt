@@ -1,0 +1,286 @@
+ESP-ROM:esp32s3-20210327
+ESP-ROM:esp32s3-20210327
+ successfully changed
+==============
+CLIENT STARTED
+==============
+ successfully changed
+==============
+CLIENT STARTED
+==============
+[GPS] erkannte Baudrate: 38400
+[GPS] clear RX-Buffer
+[GPS] >>> $PCAS06,0*1B
+check Input
+[GPS] L76K GNSS erfolgreich getestet
+[GPS] >>> $PCAS04,D,D,9*10
+[GPS] >>> $PCAS02,1000*2E
+[GPS] >>> $PCAS11,0*1D
+[GPS] >>> $PCAS03,1,0,0,0,1,0,0,0,0,0,,,0,0*02
+[GPS] L76K konfiguriert
+[GPS] L76K erkannt
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=23002 wait=4500 delta=13754
+[MC-DBG] RX_TIMEOUT_DEFERRED src=preamble_only rssi=-69 cnt=0
+TimeClient now (UTC): 21:47:38
+[MC-DBG] RX_TIMEOUT_FIRE ts=27509 wait=4500 delta=4506
+[MC-DBG] RX_IRQ_STALE rssi=-69 flags=PRE cnt=1
+[MC-DBG] RX_IRQ_STALE forced restart after 1 deferrals
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RING_STATUS queued=0 pending=0 retrying=0 done=0 iW=0 iR=0 dedup=0/100
+23:47:45 [WIFI]..WiFi connected
+23:47:45 NEW-HEY: 030 @ xE23A0297 H04 S0 T0 M00 OE3WAS-33>H@R0; HW:51 MOD:8/8 FCS:068C FW:35:p LH:B3
+
+23:47:45 Insert own_msg_id:E23A0297 <E23A0297>
+[MC-DBG] RING_WRITE slot=0 type=40 status=FF len=30 msg_id=E23A0297 queued=0/30 src=auto_pos
+[MC-DBG] RING_PRIO slot=0 prio=5
+[MC-TRICKLE] SEND consistent=0<k=2 interval=30000ms neighbors=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=32024 wait=4500 delta=4506
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-SM] IDLE -> TX_PREPARE rc=0
+[MC-DBG] TX_GATE_ENTER qlen=1 cad_attempt=0
+[CHECK] radio.scanChannel() / 1
+[MC-DBG] CAD_SCAN result=-15
+[MC-DBG] CAD_FREE attempt=0
+[MC-DBG] RING_TX_READ slot=0 prio=5 type=40 status=FF len=30 msg_id=E23A0297 retry=0 queued=1/30 lat=1993ms
+[MC-DBG] RADIO_TX len=30
+
+[MC-SM] TX_PREPARE -> TX_ACTIVE rc=0
+[MC-DBG] TX_START qlen=0
+transmittedFlag
+[MC-SM] TX_ACTIVE -> TX_DONE rc=0
+[MC-DBG] TX_DONE state=0 ts=32541
+transmission finished!
+OnTXDone
+[MC-SM] TX_DONE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTARTED src=after_tx state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=463ms util=4%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=37332 wait=4780 delta=4782
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=42124 wait=4780 delta=4784
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=46917 wait=4780 delta=4785
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=51709 wait=4780 delta=4784
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=56503 wait=4780 delta=4786
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RING_STATUS queued=0 pending=0 retrying=0 done=0 iW=1 iR=1 dedup=0/100
+23:48:15 [WIFI]..WiFi connected
+[MC-DBG] RX_TIMEOUT_FIRE ts=61296 wait=4780 delta=4785
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=66088 wait=4780 delta=4784
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=70882 wait=4780 delta=4786
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=75675 wait=4780 delta=4785
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=80467 wait=4780 delta=4784
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:37;[HEAP];126840;125108;114676;(mon)
+23:48:37;[PSRM];8370311;(mon)
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=85261 wait=4780 delta=4786
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RING_STATUS queued=0 pending=0 retrying=0 done=0 iW=1 iR=1 dedup=0/100
+23:48:45 [WIFI]..WiFi connected
+[MC-DBG] RX_TIMEOUT_FIRE ts=90052 wait=4780 delta=4783
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:45 NEW-HEY: 030 @ xE23A0298 H04 S0 T0 M00 OE3WAS-33>H@R0; HW:51 MOD:8/8 FCS:068D FW:35:p LH:B3
+
+23:48:45 Insert own_msg_id:E23A0298 <E23A0298>
+[MC-DBG] RING_WRITE slot=1 type=40 status=FF len=30 msg_id=E23A0298 queued=0/30 src=auto_pos
+[MC-DBG] RING_PRIO slot=1 prio=5
+[MC-TRICKLE] SEND consistent=0<k=2 interval=60000ms neighbors=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=94842 wait=4780 delta=4782
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-SM] IDLE -> TX_PREPARE rc=0
+[MC-DBG] TX_GATE_ENTER qlen=1 cad_attempt=0
+[CHECK] radio.scanChannel() / 1
+[MC-DBG] CAD_SCAN result=-15
+[MC-DBG] CAD_FREE attempt=0
+[MC-DBG] RING_TX_READ slot=1 prio=5 type=40 status=FF len=30 msg_id=E23A0298 retry=0 queued=1/30 lat=4773ms
+[MC-DBG] RADIO_TX len=30
+
+[MC-SM] TX_PREPARE -> TX_ACTIVE rc=0
+[MC-DBG] TX_START qlen=0
+transmittedFlag
+[MC-SM] TX_ACTIVE -> TX_DONE rc=0
+[MC-DBG] TX_DONE state=0 ts=95363
+transmission finished!
+OnTXDone
+[MC-SM] TX_DONE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTARTED src=after_tx state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=100224 wait=4850 delta=4852
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=467ms util=4%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=105087 wait=4850 delta=4855
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=109947 wait=4850 delta=4852
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=114807 wait=4850 delta=4852
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:10 NEW-POS: 061 ! xE23A0299 H02 S0 T0 M00 OE3WAS-33>*!4817.26N/01618.94E#/B=150/A=000830 HW:51 MOD:8/8 FCS:0C79 FW:35:p LH:B3
+
+[MC-DBG] RING_WRITE slot=2 type=21 status=FF len=61 msg_id=E23A0299 queued=0/30 src=user_wx
+[MC-DBG] RING_PRIO slot=2 prio=4
+[MC-DBG] RX_TIMEOUT_FIRE ts=119670 wait=4850 delta=4855
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-SM] IDLE -> TX_PREPARE rc=0
+[MC-DBG] TX_GATE_ENTER qlen=1 cad_attempt=0
+[CHECK] radio.scanChannel() / 1
+[MC-DBG] CAD_SCAN result=-15
+[MC-DBG] CAD_FREE attempt=0
+[MC-DBG] RING_TX_READ slot=2 prio=4 type=21 status=FF len=61 msg_id=E23A0299 retry=0 queued=1/30 lat=4687ms
+[MC-DBG] RADIO_TX len=61
+
+[MC-SM] TX_PREPARE -> TX_ACTIVE rc=0
+[MC-DBG] TX_START qlen=0
+[MC-DBG] RING_STATUS queued=0 pending=0 retrying=0 done=0 iW=3 iR=3 dedup=0/100
+23:49:15 [WIFI]..WiFi connected
+transmittedFlag
+[MC-SM] TX_ACTIVE -> TX_DONE rc=0
+[MC-DBG] TX_DONE state=0 ts=120494
+transmission finished!
+OnTXDone
+[MC-SM] TX_DONE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTARTED src=after_tx state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=762ms util=7%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=125253 wait=4745 delta=4750
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=130009 wait=4745 delta=4748
+[MC-DBG] RX_TIMEOUT_DEFERRED src=preamble_only rssi=-70 cnt=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=134759 wait=4745 delta=4749
+[MC-DBG] RX_IRQ_STALE rssi=-70 flags=PRE cnt=1
+[MC-DBG] RX_IRQ_STALE forced restart after 1 deferrals
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=139517 wait=4745 delta=4749
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=144273 wait=4745 delta=4748
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=149031 wait=4745 delta=4750
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RING_STATUS queued=0 pending=0 retrying=0 done=0 iW=3 iR=3 dedup=0/100
+23:49:45 [WIFI]..WiFi connected
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=153788 wait=4745 delta=4749
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=158544 wait=4745 delta=4748
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=163302 wait=4745 delta=4750
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=168057 wait=4745 delta=4747
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=172815 wait=4745 delta=4750
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=177573 wait=4745 delta=4750
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RING_STATUS queued=0 pending=0 retrying=0 done=0 iW=3 iR=3 dedup=0/100
+23:50:15 [WIFI]..WiFi connected
+[MC-DBG] RX_TIMEOUT_FIRE ts=182330 wait=4745 delta=4749
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=187086 wait=4745 delta=4748
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=191842 wait=4745 delta=4748
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=196601 wait=4745 delta=4751
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-DBG] RX_TIMEOUT_FIRE ts=201357 wait=4745 delta=4748
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+::{9}Test BrownOu23:50:37;[HEAP];126792;125108;114676;(mon)
+23:50:37;[PSRM];8370311;(mon)
+tSendMessage in:{9}Test BrownOut
+SendMessage out:{9}Test BrownOut
+23:50:38 NEW-TXT: 040 : xE23A029A H04 S0 T0 M00 OE3WAS-33>9:Test BrownOut HW:51 MOD:8/8 FCS:0AB7 FW:35:p LH:B3
+
+23:50:38 Insert own_msg_id:E23A029A <E23A029A>
+[MC-DBG] RX_DEDUP_ADD msg_id=E23A029A srv=0 slot=0/100
+[MC-DBG] RING_WRITE slot=3 type=3A status=00 len=40 msg_id=E23A029A queued=0/30 src=user_msg
+[MC-DBG] RING_PRIO slot=3 prio=2
+<3A>BLEtoPhone RingBuff added len=40 to element: 0
+2C 3A 9A 02 3A E2 14 4F 45 33 57 41 53 2D 33 33 3E 39 3A 54 65 73 74 20 42 72 6F 77 6E 4F 75 74 00 33 88 0A B7 23 B3 70 7E 69 FF AC 2E 
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=206115 wait=4745 delta=4750
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+[MC-SM] IDLE -> TX_PREPARE rc=0
+[MC-DBG] TX_GATE_ENTER qlen=1 cad_attempt=0
+[CHECK] radio.scanChannel() / 1
+[MC-DBG] CAD_SCAN result=-15
+[MC-DBG] CAD_FREE attempt=0
+[MC-DBG] RING_TX_READ slot=3 prio=2 type=3A status=00 len=40 msg_id=E23A029A retry=0 queued=1/30 lat=3127ms
+[MC-DBG] RADIO_TX len=40
+
+[MC-SM] TX_PREPARE -> TX_ACTIVE rc=0
+[MC-DBG] TX_START qlen=0
+transmittedFlag
+[MC-SM] TX_ACTIVE -> TX_DONE rc=0
+[MC-DBG] TX_DONE state=0 ts=206732
+transmission finished!

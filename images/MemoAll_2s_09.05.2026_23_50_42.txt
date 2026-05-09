@@ -1,0 +1,519 @@
+=== [AllInput] ===
+ESP-ROM:esp32s3-20210327
+ESP-ROM:esp32s3-20210327
+ successfully changed
+[BLE ]...Device started with BLE-Name <MC-8e80-OE3WAS-33>
+[BLE ]...Device-Address <20:6e:f1:b8:8e:81>
+[BLE ]...Waiting a client connection to notify...
+==============
+CLIENT STARTED
+==============
+[WIFI]...WiFi full radio reset
+[WIFI]...SSID: Drei_H288A_24G_yAFG CHAN: 9 RSSI: -48 BSSID: 90:FD:73:AC:F1:83
+[WIFI]...connecting to CHAN: 9 BSSID: 90:FD:73:AC:F1:83
+[WIFI]...power: 80 RSSI:-48
+[GPS]...Init GPIO RX=5 TX=6
+[GPS]...1200 baud --> 3 chars
+[GPS]...2400 baud --> 1 chars
+[GPS]...4800 baud --> 2 chars
+[GPS]...9600 baud --> 5 chars
+[GPS]...19200 baud --> 6 chars
+[GPS]...38400 baud --> 58 chars
+ successfully changed
+[BLE ]...Device started with BLE-Name <MC-8e80-OE3WAS-33>
+[BLE ]...Device-Address <20:6e:f1:b8:8e:81>
+[BLE ]...Waiting a client connection to notify...
+==============
+CLIENT STARTED
+==============
+[WIFI]...WiFi full radio reset
+[WIFI]...SSID: Drei_H288A_24G_yAFG CHAN: 9 RSSI: -55 BSSID: 90:FD:73:AC:F1:83
+[WIFI]...connecting to CHAN: 9 BSSID: 90:FD:73:AC:F1:83
+[WIFI]...power: 80 RSSI:-55
+[GPS]...Init GPIO RX=5 TX=6
+[GPS]...1200 baud --> 3 chars
+[GPS]...2400 baud --> 1 chars
+[GPS]...4800 baud --> 2 chars
+[GPS]...9600 baud --> 5 chars
+[GPS]...19200 baud --> 6 chars
+[GPS]...38400 baud --> 58 chars
+[GPS]...found with 38400 baud (58 chars)
+[GPS] erkannte Baudrate: 38400
+[GPS]...Try to init L76K/UBLOX
+[GPS] clear RX-Buffer
+[GPS] >>> $PCAS06,0*1B
+[GPS] ... [GPS] <<< $GPTXT,01,01,02,SW=URANUS5,V5.3.0.0*1D
+ ...
+check Input
+[GPS] L76K GNSS erfolgreich getestet
+[GPS] >>> $PCAS04,D,D,9*10
+[GPS] >>> $PCAS02,1000*2E
+[GPS] >>> $PCAS11,0*1D
+[GPS] >>> $PCAS03,1,0,0,0,1,0,0,0,0,0,,,0,0*02
+[GPS] L76K konfiguriert
+[GPS] L76K erkannt
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[WIFI]...Wait connect 
+[WIFI]...connect OK
+[WIFI]...now listening at IP 192.168.1.125, UDP port 1990
+[WIFI]...Internet UDP-DEST meshcom.oevsv.at
+[WIFI]...Internet NTP-DEST pool.ntp.org
+00:00:02[Web]...mDNS responder started
+00:00:02[Web]...WEBServer started
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=23002 wait=4500 delta=13754
+[MC-DBG] RX_TIMEOUT_DEFERRED src=preamble_only rssi=-69 cnt=0
+TimeClient now (UTC): 21:47:38
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=27509 wait=4500 delta=4506
+[MC-DBG] RX_IRQ_STALE rssi=-69 flags=PRE cnt=1
+[MC-DBG] RX_IRQ_STALE forced restart after 1 deferrals
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:47:42 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RING_STATUS queued=0 pending=0 retrying=0 done=0 iW=0 iR=0 dedup=0/100
+23:47:45 [WIFI]..WiFi connected
+23:47:45 NEW-HEY: 030 @ xE23A0297 H04 S0 T0 M00 OE3WAS-33>H@R0; HW:51 MOD:8/8 FCS:068C FW:35:p LH:B3
+
+23:47:45 Insert own_msg_id:E23A0297 <E23A0297>
+[MC-DBG] RING_WRITE slot=0 type=40 status=FF len=30 msg_id=E23A0297 queued=0/30 src=auto_pos
+[MC-DBG] RING_PRIO slot=0 prio=5
+[MC-TRICKLE] SEND consistent=0<k=2 interval=30000ms neighbors=0
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=32024 wait=4500 delta=4506
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:47:47 [LoRa]...Receive Timeout, startReceive again with sucess
+[MC-SM] IDLE -> TX_PREPARE rc=0
+[MC-DBG] TX_GATE_ENTER qlen=1 cad_attempt=0
+[CHECK] radio.scanChannel() / 1
+[MC-DBG] CAD_SCAN result=-15
+[MC-DBG] CAD_FREE attempt=0
+[MC-DBG] RING_TX_READ slot=0 prio=5 type=40 status=FF len=30 msg_id=E23A0297 retry=0 queued=1/30 lat=1993ms
+[MC-DBG] RADIO_TX len=30
+23:47:47 TX-LoRa: 030 @ xE23A0297 H04 S0 T0 M01 OE3WAS-33>H@R0; HW:51 MOD:8/8 FCS:068C FW:35:p LH:B3
+
+[MC-SM] TX_PREPARE -> TX_ACTIVE rc=0
+[MC-DBG] TX_START qlen=0
+transmittedFlag
+[MC-SM] TX_ACTIVE -> TX_DONE rc=0
+[MC-DBG] TX_DONE state=0 ts=32541
+transmission finished!
+OnTXDone
+[MC-SM] TX_DONE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTARTED src=after_tx state=0
+23:47:47 [BATT]...reading: 3236 factor: 2.4176 voltage: 7823.30 mV
+NTC-Temp: 30.327_°C 2142_raw 1841.000_mV 7925.04_Ohm
+23:47:47;[TEMP];30.33;off
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=463ms util=4%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=37332 wait=4780 delta=4782
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:47:52 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=42124 wait=4780 delta=4784
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:47:57 [LoRa]...Receive Timeout, startReceive again with sucess
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=46917 wait=4780 delta=4785
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:01 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=51709 wait=4780 delta=4784
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:06 [LoRa]...Receive Timeout, startReceive again with sucess
+23:48:07 [BATT]...reading: 3260 factor: 2.4176 voltage: 7881.32 mV
+NTC-Temp: 30.499_°C 2149_raw 1847.000_mV 7866.81_Ohm
+23:48:07;[TEMP];30.50;off
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=56503 wait=4780 delta=4786
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:11 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RING_STATUS queued=0 pending=0 retrying=0 done=0 iW=1 iR=1 dedup=0/100
+23:48:15 [WIFI]..WiFi connected
+[MC-DBG] RX_TIMEOUT_FIRE ts=61296 wait=4780 delta=4785
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:16 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=66088 wait=4780 delta=4784
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:21 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=70882 wait=4780 delta=4786
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:25 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+23:48:27 [BATT]...reading: 3260 factor: 2.4176 voltage: 7881.32 mV
+NTC-Temp: 30.700_°C 2151_raw 1854.000_mV 7799.35_Ohm
+23:48:27;[TEMP];30.70;off
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=75675 wait=4780 delta=4785
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:30 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=80467 wait=4780 delta=4784
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:35 [LoRa]...Receive Timeout, startReceive again with sucess
+23:48:37;[HEAP];126840;125108;114676;(mon)
+23:48:37;[PSRM];8370311;(mon)
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=85261 wait=4780 delta=4786
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:40 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RING_STATUS queued=0 pending=0 retrying=0 done=0 iW=1 iR=1 dedup=0/100
+23:48:45 [WIFI]..WiFi connected
+[MC-DBG] RX_TIMEOUT_FIRE ts=90052 wait=4780 delta=4783
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:45 [LoRa]...Receive Timeout, startReceive again with sucess
+23:48:45 NEW-HEY: 030 @ xE23A0298 H04 S0 T0 M00 OE3WAS-33>H@R0; HW:51 MOD:8/8 FCS:068D FW:35:p LH:B3
+
+23:48:45 Insert own_msg_id:E23A0298 <E23A0298>
+[MC-DBG] RING_WRITE slot=1 type=40 status=FF len=30 msg_id=E23A0298 queued=0/30 src=auto_pos
+[MC-DBG] RING_PRIO slot=1 prio=5
+[MC-TRICKLE] SEND consistent=0<k=2 interval=60000ms neighbors=0
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+23:48:47 [BATT]...reading: 3262 factor: 2.4176 voltage: 7886.15 mV
+NTC-Temp: 30.758_°C 2153_raw 1856.000_mV 7780.17_Ohm
+23:48:47;[TEMP];30.76;off
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=94842 wait=4780 delta=4782
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:49 [LoRa]...Receive Timeout, startReceive again with sucess
+[MC-SM] IDLE -> TX_PREPARE rc=0
+[MC-DBG] TX_GATE_ENTER qlen=1 cad_attempt=0
+[CHECK] radio.scanChannel() / 1
+[MC-DBG] CAD_SCAN result=-15
+[MC-DBG] CAD_FREE attempt=0
+[MC-DBG] RING_TX_READ slot=1 prio=5 type=40 status=FF len=30 msg_id=E23A0298 retry=0 queued=1/30 lat=4773ms
+[MC-DBG] RADIO_TX len=30
+23:48:49 TX-LoRa: 030 @ xE23A0298 H04 S0 T0 M01 OE3WAS-33>H@R0; HW:51 MOD:8/8 FCS:068D FW:35:p LH:B3
+
+[MC-SM] TX_PREPARE -> TX_ACTIVE rc=0
+[MC-DBG] TX_START qlen=0
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+transmittedFlag
+[MC-SM] TX_ACTIVE -> TX_DONE rc=0
+[MC-DBG] TX_DONE state=0 ts=95363
+transmission finished!
+OnTXDone
+[MC-SM] TX_DONE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTARTED src=after_tx state=0
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=100224 wait=4850 delta=4852
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:48:55 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=467ms util=4%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=105087 wait=4850 delta=4855
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:00 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=109947 wait=4850 delta=4852
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:04 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+23:49:08 [BATT]...reading: 3259 factor: 2.4176 voltage: 7878.90 mV
+NTC-Temp: 30.758_°C 2156_raw 1856.000_mV 7780.17_Ohm
+23:49:08;[TEMP];30.76;off
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=114807 wait=4850 delta=4852
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:09 [LoRa]...Receive Timeout, startReceive again with sucess
+23:49:10 [POS]...sendPostion initialized F:1 S:0
+23:49:10 NEW-POS: 061 ! xE23A0299 H02 S0 T0 M00 OE3WAS-33>*!4817.26N/01618.94E#/B=150/A=000830 HW:51 MOD:8/8 FCS:0C79 FW:35:p LH:B3
+
+[MC-DBG] RING_WRITE slot=2 type=21 status=FF len=61 msg_id=E23A0299 queued=0/30 src=user_wx
+[MC-DBG] RING_PRIO slot=2 prio=4
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=119670 wait=4850 delta=4855
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:14 [LoRa]...Receive Timeout, startReceive again with sucess
+[MC-SM] IDLE -> TX_PREPARE rc=0
+[MC-DBG] TX_GATE_ENTER qlen=1 cad_attempt=0
+[CHECK] radio.scanChannel() / 1
+[MC-DBG] CAD_SCAN result=-15
+[MC-DBG] CAD_FREE attempt=0
+[MC-DBG] RING_TX_READ slot=2 prio=4 type=21 status=FF len=61 msg_id=E23A0299 retry=0 queued=1/30 lat=4687ms
+[MC-DBG] RADIO_TX len=61
+23:49:14 TX-LoRa: 061 ! xE23A0299 H02 S0 T0 M01 OE3WAS-33>*!4817.26N/01618.94E#/B=150/A=000830 HW:51 MOD:8/8 FCS:0C79 FW:35:p LH:B3
+
+[MC-SM] TX_PREPARE -> TX_ACTIVE rc=0
+[MC-DBG] TX_START qlen=0
+[MC-DBG] RING_STATUS queued=0 pending=0 retrying=0 done=0 iW=3 iR=3 dedup=0/100
+23:49:15 [WIFI]..WiFi connected
+transmittedFlag
+[MC-SM] TX_ACTIVE -> TX_DONE rc=0
+[MC-DBG] TX_DONE state=0 ts=120494
+transmission finished!
+OnTXDone
+[MC-SM] TX_DONE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTARTED src=after_tx state=0
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=762ms util=7%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=125253 wait=4745 delta=4750
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:20 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=130009 wait=4745 delta=4748
+[MC-DBG] RX_TIMEOUT_DEFERRED src=preamble_only rssi=-70 cnt=0
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+23:49:28 [BATT]...reading: 3259 factor: 2.4176 voltage: 7878.90 mV
+NTC-Temp: 30.873_°C 2163_raw 1860.000_mV 7741.94_Ohm
+23:49:28;[TEMP];30.87;off
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=134759 wait=4745 delta=4749
+[MC-DBG] RX_IRQ_STALE rssi=-70 flags=PRE cnt=1
+[MC-DBG] RX_IRQ_STALE forced restart after 1 deferrals
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:29 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=139517 wait=4745 delta=4749
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:34 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=144273 wait=4745 delta=4748
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:39 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=149031 wait=4745 delta=4750
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:44 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RING_STATUS queued=0 pending=0 retrying=0 done=0 iW=3 iR=3 dedup=0/100
+23:49:45 [WIFI]..WiFi connected
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+23:49:48 [BATT]...reading: 3261 factor: 2.4176 voltage: 7883.74 mV
+NTC-Temp: 30.931_°C 2167_raw 1862.000_mV 7722.88_Ohm
+23:49:48;[TEMP];30.93;off
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=153788 wait=4745 delta=4749
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:48 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=158544 wait=4745 delta=4748
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:53 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[MC-DBG] RX_TIMEOUT_FIRE ts=163302 wait=4745 delta=4750
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:49:58 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=168057 wait=4745 delta=4747
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:50:03 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=172815 wait=4745 delta=4750
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:50:07 [LoRa]...Receive Timeout, startReceive again with sucess
+23:50:08 [BATT]...reading: 3261 factor: 2.4176 voltage: 7883.74 mV
+NTC-Temp: 30.931_°C 2167_raw 1862.000_mV 7722.88_Ohm
+23:50:08;[TEMP];30.93;off
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=177573 wait=4745 delta=4750
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:50:12 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RING_STATUS queued=0 pending=0 retrying=0 done=0 iW=3 iR=3 dedup=0/100
+23:50:15 [WIFI]..WiFi connected
+[MC-DBG] RX_TIMEOUT_FIRE ts=182330 wait=4745 delta=4749
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:50:17 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=187086 wait=4745 delta=4748
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:50:22 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=191842 wait=4745 delta=4748
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:50:26 [LoRa]...Receive Timeout, startReceive again with sucess
+23:50:28 [BATT]...reading: 3260 factor: 2.4176 voltage: 7881.32 mV
+NTC-Temp: 30.931_°C 2165_raw 1862.000_mV 7722.88_Ohm
+23:50:28;[TEMP];30.93;off
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=196601 wait=4745 delta=4751
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:50:31 [LoRa]...Receive Timeout, startReceive again with sucess
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=201357 wait=4745 delta=4748
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:50:36 [LoRa]...Receive Timeout, startReceive again with sucess
+::{9}Test BrownOu23:50:37;[HEAP];126792;125108;114676;(mon)
+23:50:37;[PSRM];8370311;(mon)
+tSendMessage in:{9}Test BrownOut
+SendMessage out:{9}Test BrownOut
+23:50:38 NEW-TXT: 040 : xE23A029A H04 S0 T0 M00 OE3WAS-33>9:Test BrownOut HW:51 MOD:8/8 FCS:0AB7 FW:35:p LH:B3
+
+23:50:38 Insert own_msg_id:E23A029A <E23A029A>
+[MC-DBG] RX_DEDUP_ADD msg_id=E23A029A srv=0 slot=0/100
+[MC-DBG] RING_WRITE slot=3 type=3A status=00 len=40 msg_id=E23A029A queued=0/30 src=user_msg
+[MC-DBG] RING_PRIO slot=3 prio=2
+<3A>BLEtoPhone RingBuff added len=40 to element: 0
+2C 3A 9A 02 3A E2 14 4F 45 33 57 41 53 2D 33 33 3E 39 3A 54 65 73 74 20 42 72 6F 77 6E 4F 75 74 00 33 88 0A B7 23 B3 70 7E 69 FF AC 2E 
+[MC-DBG] CHANNEL_UTIL rx=0ms tx=0ms util=0%
+[MC-DBG] ONRXDONE_STATS max=0ms warn=0 (>50ms)
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+[MC-DBG] RX_TIMEOUT_FIRE ts=206115 wait=4745 delta=4750
+[MC-SM] IDLE -> RX_LISTEN rc=0
+[MC-DBG] RX_RESTART src=timeout state=0
+23:50:41 [LoRa]...Receive Timeout, startReceive again with sucess
+[MC-SM] IDLE -> TX_PREPARE rc=0
+[MC-DBG] TX_GATE_ENTER qlen=1 cad_attempt=0
+[CHECK] radio.scanChannel() / 1
+[MC-DBG] CAD_SCAN result=-15
+[MC-DBG] CAD_FREE attempt=0
+[MC-DBG] RING_TX_READ slot=3 prio=2 type=3A status=00 len=40 msg_id=E23A029A retry=0 queued=1/30 lat=3127ms
+[MC-DBG] RADIO_TX len=40
+23:50:41 TX-LoRa: 040 : xE23A029A H04 S0 T0 M01 OE3WAS-33>9:Test BrownOut HW:51 MOD:8/8 FCS:0AB7 FW:35:p LH:B3
+
+[MC-SM] TX_PREPARE -> TX_ACTIVE rc=0
+[MC-DBG] TX_START qlen=0
+[GPS ]...fix:no sat:0 hdop:25.5
+[GPS ]...Time <UTC>: 00:00:00 / Date: 2000.00.00
+transmittedFlag
+[MC-SM] TX_ACTIVE -> TX_DONE rc=0
+[MC-DBG] TX_DONE state=0 ts=206732
+transmission finished!
