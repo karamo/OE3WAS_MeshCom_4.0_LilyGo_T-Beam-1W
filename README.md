@@ -172,7 +172,7 @@ https://xiaolongbupt.github.io/homepage_files/[Paper]LoRadar_INFOCOM2022.pdf
 * **Dokumente:** Originaldokumente inkl. Links zu LilyGo und deren Lizenz
 * **Examples** verschiedene Lizenzen
 * **Texte und speziell erstellte Dokumente hier:** grundsätzlich ***:copyright: by OE3WAS - Wolfgang***
-* **RadioiLib_PingPong** FW unter Verbendung der RadioLib ***:copyright: by OE3WAS - Wolfgang***
+* **RadioiLib_PingPong** FW unter Verwendung der RadioLib ***:copyright: by OE3WAS - Wolfgang***
 * Alles unter **MeshCom_FW_4** entsprechend der **Lizenz von** [**MeshCom-FW**  ](https://github.com/icssw-org/MeshCom-Firmware)
 
 * Die Hardware & Software sind nach den gängigen Regeln der Technik konzipiert und erstellt. Es wurde jedoch nicht geprüft ob allfällige Normen u/o Schutzrechte eingehalten werden.
